@@ -1,0 +1,39 @@
+{
+  "id": 114,
+  "name_arabic": "ٱلنَّاس",
+  "name_latin": "An-Nas",
+  "translation_id": "Manusia",
+  "total_ayat": 6,
+  "ayat": [
+    {
+      "number": 1,
+      "arabic": "قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ",
+      "translation": "Katakanlah: \"Aku berlindung kepada Tuan Yang menguasai manusia,\""
+    },
+    {
+      "number": 2,
+      "arabic": "مَلِكِ ٱلنَّاسِ",
+      "translation": "Raja manusia,"
+    },
+    {
+      "number": 3,
+      "arabic": "إِلَٰهِ ٱلنَّاسِ",
+      "translation": "Sembahan manusia,"
+    },
+    {
+      "number": 4,
+      "arabic": "مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ",
+      "translation": "dari kejahatan (bisikan) setan yang bersembunyi,"
+    },
+    {
+      "number": 5,
+      "arabic": "ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ",
+      "translation": "yang membisikkan (kejahatan) ke dalam dada manusia,"
+    },
+    {
+      "number": 6,
+      "arabic": "مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ",
+      "translation": "(setan) dari golongan jin dan manusia."
+    }
+  ]
+}

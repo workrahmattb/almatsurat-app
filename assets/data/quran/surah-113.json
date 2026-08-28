@@ -1,0 +1,34 @@
+{
+  "id": 113,
+  "name_arabic": "ٱلْفَلَق",
+  "name_latin": "Al-Falaq",
+  "translation_id": "Subuh",
+  "total_ayat": 5,
+  "ayat": [
+    {
+      "number": 1,
+      "arabic": "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ",
+      "translation": "Katakanlah: \"Aku berlindung kepada Tuan Yang menguasai subuh,\""
+    },
+    {
+      "number": 2,
+      "arabic": "مِن شَرِّ مَا خَلَقَ",
+      "translation": "dari kejahatan makhluk yang diciptakan-Nya,"
+    },
+    {
+      "number": 3,
+      "arabic": "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ",
+      "translation": "dan dari kejahatan malam apabila telah gelap gulita,"
+    },
+    {
+      "number": 4,
+      "arabic": "وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِى ٱلْعُقَدِ",
+      "translation": "dan dari kejahatan para wanita tukang sihir yang menghembus pada buhul tali,"
+    },
+    {
+      "number": 5,
+      "arabic": "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ",
+      "translation": "dan dari kejahatan orang yang dengki apabila ia dengki."
+    }
+  ]
+}

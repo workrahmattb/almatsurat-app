@@ -1,0 +1,44 @@
+{
+  "id": 1,
+  "name_arabic": "الفاتحة",
+  "name_latin": "Al-Fatihah",
+  "translation_id": "Pembukaan",
+  "total_ayat": 7,
+  "ayat": [
+    {
+      "number": 1,
+      "arabic": "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+      "translation": "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang."
+    },
+    {
+      "number": 2,
+      "arabic": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ",
+      "translation": "Segala puji bagi Allah, Tuhan semesta alam."
+    },
+    {
+      "number": 3,
+      "arabic": "ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+      "translation": "Maha Pengasih, Maha Penyayang."
+    },
+    {
+      "number": 4,
+      "arabic": "مَٰلِكِ يَوْمِ ٱلدِّينِ",
+      "translation": "Penguasa hari Pembalasan."
+    },
+    {
+      "number": 5,
+      "arabic": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+      "translation": "Hanya kepada Engkau kami menyembah dan hanya kepada Engkau kami mohon pertolongan."
+    },
+    {
+      "number": 6,
+      "arabic": "ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ",
+      "translation": "Tunjukilah kami jalan yang lurus,"
+    },
+    {
+      "number": 7,
+      "arabic": "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ",
+      "translation": "(yaitu) jalan orang-orang yang Engkau beri nikmat kepada mereka; bukan (jalan) mereka yang dimurkai dan buka (pula) jalan mereka yang sesat."
+    }
+  ]
+}

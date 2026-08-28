@@ -1,0 +1,34 @@
+{
+  "id": 2,
+  "name_arabic": "ٱلْبَقَرَة",
+  "name_latin": "Al-Baqarah",
+  "translation_id": "Sapi Betina",
+  "total_ayat": 5,
+  "ayat": [
+    {
+      "number": 1,
+      "arabic": "الٓمٓ",
+      "translation": "Alif Lam Mim."
+    },
+    {
+      "number": 2,
+      "arabic": "ذَٰلِكَ ٱلْكِتَٰبُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ",
+      "translation": "Kitab (Al-Quran) ini tidak ada keraguan padanya; petunjuk bagi mereka yang bertakwa."
+    },
+    {
+      "number": 3,
+      "arabic": "ٱلَّذِينَ يُؤْمِنُونَ بِٱلْغَيْبِ وَيُقِيمُونَ ٱلصَّلَوٰةَ وَمِمَّا رَزَقْنَٰهُمْ يُنفِقُونَ",
+      "translation": "(yaitu) mereka yang beriman kepada yang gaib, yang mendirikan shalat, dan menafkahkan sebagian rezeki yang Kami berikan kepada mereka."
+    },
+    {
+      "number": 4,
+      "arabic": "وَٱلَّذِينَ يُؤْمِنُونَ بِمَا أُنزِلَ إِلَيْكَ وَمَا أُنزِلَ مِن قَبْلِكَ وَبِٱلْءَاخِرَةِ هُمْ يُوقِنُونَ",
+      "translation": "Dan mereka yang beriman kepada (kitab-kitab) yang diturunkan kepadamu (Muhammad) dan (kitab-kitab) yang diturunkan sebelum kamu, serta mereka yakin akan adanya (kehidupan) akhirat."
+    },
+    {
+      "number": 5,
+      "arabic": "أُو۟لَٰٓئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُو۟لَٰٓئِكَ هُمُ ٱلْمُفْلِحُونَ",
+      "translation": "Mereka itulah yang mendapat petunjuk dari Tuhan mereka, dan merekalah yang beruntung."
+    }
+  ]
+}

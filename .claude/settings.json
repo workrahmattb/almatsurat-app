@@ -1,5 +1,8 @@
 {
-  "enabledPlugins": {
-    "expo@claude-plugins-official": true
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://localhost:20128",
+    "ANTHROPIC_AUTH_TOKEN": "sk-d46fb5e64f5c9354-314d6f-b7155623",
+    "ANTHROPIC_API_KEY": "",
+    "ANTHROPIC_MODEL": "work-ai"
   }
 }
