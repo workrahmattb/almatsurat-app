@@ -48,15 +48,15 @@ export default function SettingsScreen() {
                   {
                     backgroundColor: themeMode === option.value ? colors.accent : colors.backgroundSelected,
                     borderColor: themeMode === option.value ? colors.accent : colors.glassBorder,
-                    borderWidth: themeMode === option.value ? 1 : 0,
+                    borderWidth: 1,
                   },
                 ]}
                 onPress={() => setThemeMode(option.value)}
               >
-                <Text style={{ fontSize: 20, color: themeMode === option.value ? colors.background : colors.text }}>{option.emoji}</Text>
+                <Text style={{ fontSize: 20, color: themeMode === option.value ? '#fff' : colors.text }}>{option.emoji}</Text>
                 <Text
                   style={{
-                    color: themeMode === option.value ? colors.background : colors.text,
+                    color: themeMode === option.value ? '#fff' : colors.text,
                     fontWeight: '600',
                     fontSize: 13,
                     marginTop: 4,
@@ -82,14 +82,14 @@ export default function SettingsScreen() {
                   {
                     backgroundColor: arabicFontSize === size ? colors.accent : colors.backgroundSelected,
                     borderColor: arabicFontSize === size ? colors.accent : colors.glassBorder,
-                    borderWidth: arabicFontSize === size ? 1 : 0,
+                    borderWidth: 1,
                   },
                 ]}
                 onPress={() => setArabicFontSize(size)}
               >
                 <Text
                   style={{
-                    color: arabicFontSize === size ? colors.background : colors.text,
+                    color: arabicFontSize === size ? '#fff' : colors.text,
                     fontWeight: '600',
                   }}
                 >
@@ -113,14 +113,14 @@ export default function SettingsScreen() {
                   {
                     backgroundColor: translationFontSize === size ? colors.accent : colors.backgroundSelected,
                     borderColor: translationFontSize === size ? colors.accent : colors.glassBorder,
-                    borderWidth: translationFontSize === size ? 1 : 0,
+                    borderWidth: 1,
                   },
                 ]}
                 onPress={() => setTranslationFontSize(size)}
               >
                 <Text
                   style={{
-                    color: translationFontSize === size ? colors.background : colors.text,
+                    color: translationFontSize === size ? '#fff' : colors.text,
                     fontWeight: '600',
                   }}
                 >
@@ -141,9 +141,6 @@ export default function SettingsScreen() {
               fontFamily: 'KFGQPC-Uthmanic-HAFS',
               color: colors.text,
               lineHeight: arabicFontSize * 1.8,
-              textShadowColor: colors.accent,
-              textShadowOffset: { width: 0, height: 1 },
-              textShadowRadius: 4,
             }}
           >
             بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
@@ -171,7 +168,6 @@ export default function SettingsScreen() {
   );
 }
 
-// Simple ScrollView wrapper
 function ScrollViewWrapper({
   children,
   insets,
@@ -194,14 +190,14 @@ function ScrollViewWrapper({
 const styles = StyleSheet.create({
   container: { flex: 1 },
   header: { paddingHorizontal: Spacing.four, paddingTop: Spacing.four + 20, paddingBottom: Spacing.three },
-  headerTitle: { fontSize: 28, fontWeight: '800', letterSpacing: -0.5 },
-  section: { marginHorizontal: Spacing.three, marginBottom: Spacing.two, padding: Spacing.three, borderRadius: 14 },
-  sectionTitle: { fontSize: 16, fontWeight: '800', marginBottom: Spacing.one, letterSpacing: -0.2 },
-  sectionDesc: { fontSize: 13, marginBottom: Spacing.two, opacity: 0.9 },
+  headerTitle: { fontSize: 28, fontWeight: '700' },
+  section: { marginHorizontal: Spacing.three, marginBottom: Spacing.two, padding: Spacing.three, borderRadius: 12 },
+  sectionTitle: { fontSize: 15, fontWeight: '700', marginBottom: Spacing.one },
+  sectionDesc: { fontSize: 13, marginBottom: Spacing.two },
   themeRow: { flexDirection: 'row', gap: Spacing.two },
   themeOption: { flex: 1, alignItems: 'center', paddingVertical: Spacing.two, borderRadius: 12, borderWidth: 1 },
   fontRow: { flexDirection: 'row', gap: Spacing.one, flexWrap: 'wrap' },
-  fontOption: { width: 52, height: 52, borderRadius: 14, justifyContent: 'center', alignItems: 'center', borderWidth: 1 },
+  fontOption: { width: 48, height: 48, borderRadius: 12, justifyContent: 'center', alignItems: 'center', borderWidth: 1 },
   footer: { alignItems: 'center', paddingVertical: Spacing.four, gap: 4 },
-  footerText: { fontSize: 13, opacity: 0.8 },
+  footerText: { fontSize: 13 },
 });

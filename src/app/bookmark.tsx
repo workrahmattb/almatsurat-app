@@ -26,7 +26,7 @@ export default function BookmarkScreen() {
           else if (!isAyat && item.kitab_id) router.push(`/kitab/${item.kitab_id}`);
         }}
       >
-        <View style={[styles.bookmarkIcon, { backgroundColor: isAyat ? 'rgba(26,92,46,0.9)' : 'rgba(92,58,26,0.9)' }]}>
+        <View style={[styles.bookmarkIcon, { backgroundColor: colors.accent }]}>
           <Text style={styles.bookmarkEmoji}>{isAyat ? '📖' : '📚'}</Text>
         </View>
         <View style={styles.bookmarkInfo}>
@@ -79,17 +79,17 @@ export default function BookmarkScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   header: { paddingHorizontal: Spacing.four, paddingTop: Spacing.four + 20, paddingBottom: Spacing.three },
-  headerTitle: { fontSize: 28, fontWeight: '800', letterSpacing: -0.5 },
-  headerSubtitle: { fontSize: 14, marginTop: 2, opacity: 0.8 },
+  headerTitle: { fontSize: 28, fontWeight: '700' },
+  headerSubtitle: { fontSize: 14, marginTop: 2 },
   emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: Spacing.four },
   emptyEmoji: { fontSize: 64, marginBottom: Spacing.three },
   emptyText: { fontSize: 18, fontWeight: '600', marginBottom: Spacing.one },
-  emptySubtext: { fontSize: 14, textAlign: 'center', lineHeight: 20, opacity: 0.8 },
-  bookmarkCard: { flexDirection: 'row', alignItems: 'center', marginHorizontal: Spacing.three, marginBottom: Spacing.one, padding: Spacing.three, borderRadius: 14 },
-  bookmarkIcon: { width: 52, height: 52, borderRadius: 14, justifyContent: 'center', alignItems: 'center', marginRight: Spacing.three },
-  bookmarkEmoji: { fontSize: 26 },
+  emptySubtext: { fontSize: 14, textAlign: 'center', lineHeight: 20 },
+  bookmarkCard: { flexDirection: 'row', alignItems: 'center', marginHorizontal: Spacing.three, marginBottom: Spacing.one, padding: Spacing.three, borderRadius: 12 },
+  bookmarkIcon: { width: 48, height: 48, borderRadius: 12, justifyContent: 'center', alignItems: 'center', marginRight: Spacing.three },
+  bookmarkEmoji: { fontSize: 24 },
   bookmarkInfo: { flex: 1 },
-  bookmarkTitle: { fontSize: 16, fontWeight: '800', letterSpacing: -0.2 },
-  bookmarkSubtitle: { fontSize: 14, marginTop: 2, opacity: 0.9 },
-  bookmarkDate: { fontSize: 11, marginTop: 4, opacity: 0.8 },
+  bookmarkTitle: { fontSize: 16, fontWeight: '700' },
+  bookmarkSubtitle: { fontSize: 14, marginTop: 2 },
+  bookmarkDate: { fontSize: 11, marginTop: 4 },
 });

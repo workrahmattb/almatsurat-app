@@ -36,7 +36,7 @@ export default function WazifahReaderScreen() {
     );
   }
 
-  const bannerColor = wazifah.id === 'sugro' ? 'rgba(26,92,46,0.92)' : 'rgba(92,58,26,0.92)';
+  const bannerColor = wazifah.id === 'sugro' ? colors.primary : colors.accent;
 
   return (
     <ScrollView
@@ -49,9 +49,9 @@ export default function WazifahReaderScreen() {
       </View>
 
       {wazifah.sections.map((section) => (
-        <View key={section.section_number} style={[styles.sectionCard, { backgroundColor: colors.backgroundElement, borderColor: colors.glassBorder, borderWidth: 1, shadowColor: colors.glassShadow, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 1, shadowRadius: 12, elevation: 6 }]}>
+        <View key={section.section_number} style={[styles.sectionCard, { backgroundColor: colors.backgroundElement, borderColor: colors.glassBorder, borderWidth: 1 }]}>
           <View style={styles.sectionHeader}>
-            <View style={[styles.sectionNumber, { backgroundColor: wazifah.id === 'sugro' ? '#1a5c2e' : '#5c3a1a', shadowColor: wazifah.id === 'sugro' ? '#1a5c2e' : '#5c3a1a', shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0.6, shadowRadius: 8, elevation: 8 }]}>
+            <View style={[styles.sectionNumber, { backgroundColor: wazifah.id === 'sugro' ? colors.accent : colors.accent2 }]}>
               <Text style={styles.sectionNumberText}>{section.section_number}</Text>
             </View>
             <View style={{ flex: 1 }}>
@@ -82,14 +82,14 @@ export default function WazifahReaderScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   header: { paddingHorizontal: Spacing.four, paddingVertical: Spacing.four, alignItems: 'center' },
-  headerTitle: { fontSize: 28, color: '#fff', fontWeight: '800', textAlign: 'center', letterSpacing: -0.5 },
-  headerDesc: { fontSize: 15, color: 'rgba(255,255,255,0.85)', marginTop: 6, textAlign: 'center' },
-  sectionCard: { marginHorizontal: Spacing.three, marginTop: Spacing.three, padding: Spacing.three, borderRadius: 16 },
+  headerTitle: { fontSize: 28, color: '#fff', fontWeight: '800', textAlign: 'center' },
+  headerDesc: { fontSize: 14, color: 'rgba(255,255,255,0.8)', marginTop: 6, textAlign: 'center' },
+  sectionCard: { marginHorizontal: Spacing.three, marginTop: Spacing.three, padding: Spacing.three, borderRadius: 12 },
   sectionHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: Spacing.three },
-  sectionNumber: { width: 40, height: 40, borderRadius: 12, justifyContent: 'center', alignItems: 'center', marginRight: Spacing.two },
-  sectionNumberText: { color: '#fff', fontSize: 16, fontWeight: '800' },
-  sectionTitle: { fontSize: 17, fontWeight: '800', letterSpacing: -0.2 },
-  sectionSource: { fontSize: 12, marginTop: 3, opacity: 0.85 },
+  sectionNumber: { width: 36, height: 36, borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginRight: Spacing.two },
+  sectionNumberText: { color: '#fff', fontSize: 15, fontWeight: '800' },
+  sectionTitle: { fontSize: 16, fontWeight: '700' },
+  sectionSource: { fontSize: 12, marginTop: 3 },
   arabicText: { textAlign: 'right', fontFamily: 'KFGQPC-Uthmanic-HAFS', fontWeight: '600', marginBottom: Spacing.two },
   transliterationText: { fontStyle: 'italic', marginBottom: Spacing.two },
   translationText: { fontWeight: '500', marginTop: 4 },
