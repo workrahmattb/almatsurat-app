@@ -119,7 +119,7 @@ function SectionCard({
           ayatPairs.map((ayat: AyatPair, i: number) => (
             <View key={i} style={styles.ayatItem}>
               <View style={styles.ayatHeader}>
-                <Text style={[styles.ayatNumber, { color: colors.accent }]}>Ayat {i + 1}</Text>
+                <Text style={[styles.ayatNumber, { color: colors.accent }]}>Ayat {ayat.ayat}</Text>
               </View>
               <Text
                 style={[
