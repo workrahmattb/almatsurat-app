@@ -1,11 +1,12 @@
-import { useEffect } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useRef, useCallback } from 'react';
+import { FlatList, StyleSheet, Text, View, Dimensions, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Colors, Spacing } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useProgressStore, useSettingsStore } from '@/stores';
 import { getWazifahById, type WazifahSection } from '@/assets/data/wazifah';
+import { useLocalSearchParams } from 'expo-router';
 import { getAyatPairs, type AyatPair } from '@/assets/data/wazifah/perayat-adapter';
 
 export default function WazifahSugroScreen() {
@@ -16,12 +17,41 @@ export default function WazifahSugroScreen() {
 
   const { arabicFontSize, translationFontSize } = useSettingsStore();
   const updateProgress = useProgressStore((s) => s.updateProgress);
-
   const wazifah = getWazifahById('sugro');
+  const params = useLocalSearchParams();
+  const flatListRef = useRef<FlatList>(null);
+
+  const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 50 }).current;
+  const onViewableItemsChanged = useCallback(({ viewableItems }: { viewableItems: { item: WazifahSection; key: string; index: number; isVisible: boolean }[] }) => {
+    if (viewableItems.length > 0 && wazifah && viewableItems[0].item) {
+      const visible = viewableItems[viewableItems.length - 1].item;
+      console.log('SUGRO VISIBLE -> section:', visible.section_number, '| title:', visible.title);
+      updateProgress({ type: 'wazifah', reference_id: wazifah.id, title: wazifah.title, wazifah_type: 'sugro', section_number: visible.section_number, section_title: visible.title });
+    }
+  }, [wazifah, updateProgress]);
+
+  const getItemLayout = useCallback((data: any, index: number) => {
+    const cardWidth = Dimensions.get('window').width;
+    return { length: cardWidth, offset: cardWidth * index, index };
+  }, []);
 
   useEffect(() => {
-    if (wazifah) updateProgress({ type: 'wazifah', reference_id: wazifah.id, title: wazifah.title });
-  }, [wazifah, updateProgress]);
+    if (wazifah && params.scrollToSection) {
+      const target = Number(params.scrollToSection);
+      const index = wazifah.sections.findIndex(s => s.section_number === target);
+      if (index >= 0 && flatListRef.current) {
+        // Small delay to ensure FlatList is ready
+        setTimeout(() => {
+          flatListRef.current?.scrollToIndex({ index, animated: true, viewPosition: 0 });
+        }, 100);
+      }
+    }
+  }, [wazifah, params.scrollToSection]);
+
+  // Jangan panggil updateProgress kosong di awal — biar data scroll tersimpan
+  // useEffect(() => {
+  //   if (wazifah) updateProgress({ type: 'wazifah', reference_id: wazifah.id, title: wazifah.title, wazifah_type: 'sugro' });
+  // }, [wazifah, updateProgress]);
 
   if (!wazifah) {
     return (
@@ -40,21 +70,35 @@ export default function WazifahSugroScreen() {
       </View>
 
       <FlatList
+        ref={flatListRef}
         data={wazifah.sections}
+        horizontal={true}
+        pagingEnabled={true}
+        showsHorizontalScrollIndicator={false}
         keyExtractor={(item: WazifahSection) => String(item.section_number)}
-        contentContainerStyle={{ paddingHorizontal: Spacing.three, paddingTop: Spacing.two, paddingBottom: insets.bottom + 40 }}
-        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{}}
+        snapToInterval={Dimensions.get('window').width}
+        decelerationRate="fast"
+        viewabilityConfig={viewabilityConfig}
+        onViewableItemsChanged={onViewableItemsChanged}
+        getItemLayout={getItemLayout}
         renderItem={({ item, index }) => (
-          <SectionCard
-            section={item}
-            index={index}
-            colors={colors}
-            arabicFontSize={arabicFontSize}
-            translationFontSize={translationFontSize}
-            accentColor={colors.accent}
-            isFirst={index === 0}
-            isLast={index === wazifah.sections.length - 1}
-          />
+          <ScrollView
+            style={{ width: Dimensions.get('window').width }}
+            contentContainerStyle={{ paddingHorizontal: Spacing.three, paddingBottom: insets.bottom + 40, alignItems: 'center' }}
+            showsVerticalScrollIndicator={false}
+          >
+            <SectionCard
+              section={item}
+              index={index}
+              colors={colors}
+              arabicFontSize={arabicFontSize}
+              translationFontSize={translationFontSize}
+              accentColor={colors.accent}
+              isFirst={index === 0}
+              isLast={index === wazifah.sections.length - 1}
+            />
+          </ScrollView>
         )}
       />
     </View>
@@ -90,11 +134,8 @@ function SectionCard({
           backgroundColor: colors.backgroundElement,
           borderColor: colors.glassBorder,
           borderWidth: 1,
-          marginTop: isFirst ? 0 : Spacing.two,
-          borderTopLeftRadius: isFirst ? 16 : 12,
-          borderTopRightRadius: isFirst ? 16 : 12,
-          borderBottomLeftRadius: isLast ? 16 : 12,
-          borderBottomRightRadius: isLast ? 16 : 12,
+          borderRadius: 16,
+          marginHorizontal: Spacing.three,
         },
       ]}
     >

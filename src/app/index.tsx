@@ -40,11 +40,18 @@ export default function HomeScreen() {
           style={[styles.continueCard, { backgroundColor: colors.accent, borderLeftColor: colors.accent2 }]}
           onPress={() => {
             if (latestProgress.type === 'surah') router.push(`/surah/${latestProgress.reference_id}`);
-            else router.push(`/kitab/${latestProgress.reference_id}`);
+            else if (latestProgress.type === 'kitab') router.push(`/kitab/${latestProgress.reference_id}`);
+            else if (latestProgress.type === 'wazifah') {
+              const route = latestProgress.wazifah_type === 'kubro' ? '/wazifah-kubro' : '/wazifah-sugro';
+              router.push({ pathname: route, params: { scrollToSection: latestProgress.section_number } });
+            }
           }}
         >
           <Text style={styles.continueLabel}>📖 Lanjutkan Membaca</Text>
           <Text style={styles.continueTitle}>{latestProgress.title}</Text>
+          {latestProgress.section_number && (
+            <Text style={styles.continueSubtitle}>Section {latestProgress.section_number}{latestProgress.section_title ? ' — ' + latestProgress.section_title : ''}</Text>
+          )}
           {latestProgress.subtitle && (
             <Text style={styles.continueSubtitle}>{latestProgress.subtitle}</Text>
           )}

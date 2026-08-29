@@ -79,5 +79,7 @@ export interface ReadingProgress {
   chapter_number?: number; // for kitab
   ayat_number?: number; // for surah
   section_number?: number; // for wazifah
+  section_title?: string; // for wazifah (title dari section terakhir scroll)
+  wazifah_type?: 'sugro' | 'kubro'; // for wazifah
   last_read: string;
 }

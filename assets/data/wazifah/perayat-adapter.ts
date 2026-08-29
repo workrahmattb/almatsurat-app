@@ -7,6 +7,10 @@ export interface AyatPair {
   translation: string;
 }
 
+export function getSectionByNumber(sections: WazifahSection[], sectionNumber: number): WazifahSection | undefined {
+  return sections.find(s => s.section_number === sectionNumber);
+}
+
 /**
  * Adapter to get ayat pairs from wazifah section.
  * Returns array if section has ayatPairs or is Quranic (split by ۝).
