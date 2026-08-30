@@ -10,6 +10,22 @@ Aplikasi mobile offline-first untuk membaca **Al-Quran** (teks Arab + terjemahan
 
 ---
 
+## 💖 Donasi untuk Pengembangan Aplikasi
+
+Jika aplikasi ini bermanfaat, kamu bisa mendukung pengembangannya melalui donasi:
+
+👉 **[Donasi via Saweria](https://saweria.co/rahmattb)**
+
+Setiap kontribusi akan digunakan untuk:
+- Menambah data Al-Quran lengkap (114 surah)
+- Menambah koleksi kitab Islam klasik
+- Pengembangan fitur audio murottal dan tafsir
+- Perbaikan UI/UX dan performa aplikasi
+
+Terima kasih atas dukungannya! 🌙
+
+---
+
 ## ✨ Fitur Utama
 
 | Fitur | Deskripsi |

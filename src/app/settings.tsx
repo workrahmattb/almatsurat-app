@@ -3,7 +3,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Colors, Spacing } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { useSettingsStore, type ThemeMode } from '@/stores';
+import { useSettingsStore } from '@/stores';
 
 export default function SettingsScreen() {
   const insets = useSafeAreaInsets();
@@ -14,17 +14,9 @@ export default function SettingsScreen() {
   const {
     arabicFontSize,
     translationFontSize,
-    themeMode,
     setArabicFontSize,
     setTranslationFontSize,
-    setThemeMode,
   } = useSettingsStore();
-
-  const themeOptions: { value: ThemeMode; label: string; emoji: string }[] = [
-    { value: 'light', label: 'Terang', emoji: '☀️' },
-    { value: 'dark', label: 'Gelap', emoji: '🌙' },
-    { value: 'system', label: 'Sistem', emoji: '📱' },
-  ];
 
   const fontSizesArabic = [20, 24, 28, 32, 36, 40];
   const fontSizesTranslation = [12, 14, 16, 18, 20, 22];
@@ -34,39 +26,6 @@ export default function SettingsScreen() {
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         <View style={styles.header}>
           <Text style={[styles.headerTitle, { color: colors.text }]}>⚙️ Pengaturan</Text>
-        </View>
-
-        {/* Theme Section */}
-        <View style={[styles.section, { backgroundColor: colors.backgroundElement, borderColor: colors.glassBorder, borderWidth: 1 }]}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>🎨 Tema</Text>
-          <View style={styles.themeRow}>
-            {themeOptions.map((option) => (
-              <TouchableOpacity
-                key={option.value}
-                style={[
-                  styles.themeOption,
-                  {
-                    backgroundColor: themeMode === option.value ? colors.accent : colors.backgroundSelected,
-                    borderColor: themeMode === option.value ? colors.accent : colors.glassBorder,
-                    borderWidth: 1,
-                  },
-                ]}
-                onPress={() => setThemeMode(option.value)}
-              >
-                <Text style={{ fontSize: 20, color: themeMode === option.value ? '#fff' : colors.text }}>{option.emoji}</Text>
-                <Text
-                  style={{
-                    color: themeMode === option.value ? '#fff' : colors.text,
-                    fontWeight: '600',
-                    fontSize: 13,
-                    marginTop: 4,
-                  }}
-                >
-                  {option.label}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
         </View>
 
         {/* Arabic Font Size */}
@@ -194,8 +153,6 @@ const styles = StyleSheet.create({
   section: { marginHorizontal: Spacing.three, marginBottom: Spacing.two, padding: Spacing.three, borderRadius: 12 },
   sectionTitle: { fontSize: 15, fontWeight: '700', marginBottom: Spacing.one },
   sectionDesc: { fontSize: 13, marginBottom: Spacing.two },
-  themeRow: { flexDirection: 'row', gap: Spacing.two },
-  themeOption: { flex: 1, alignItems: 'center', paddingVertical: Spacing.two, borderRadius: 12, borderWidth: 1 },
   fontRow: { flexDirection: 'row', gap: Spacing.one, flexWrap: 'wrap' },
   fontOption: { width: 48, height: 48, borderRadius: 12, justifyContent: 'center', alignItems: 'center', borderWidth: 1 },
   footer: { alignItems: 'center', paddingVertical: Spacing.four, gap: 4 },

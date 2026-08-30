@@ -194,7 +194,7 @@ function SectionCard({
         },
       ]}
     >
-      {/* Card Header: Judul + Info (tanpa nomor section) */}
+      {/* Card Header: Judul + Info (center) */}
       <View
         style={[
           styles.cardHeader,
@@ -205,17 +205,15 @@ function SectionCard({
           },
         ]}
       >
-        <View style={styles.cardHeaderRight}>
-          <Text style={styles.cardTitle}>{section.title}</Text>
-          <View style={styles.cardMetaRow}>
-            <Text style={styles.cardSource}>{section.source}</Text>
-            <Text
-              style={[styles.cardMetaDot, { color: "rgba(255,255,255,0.6)" }]}
-            >
-              •
-            </Text>
-            <Text style={styles.cardRepetisi}>{section.repetition}x</Text>
-          </View>
+        <Text style={styles.cardTitle}>{section.title}</Text>
+        <View style={styles.cardMetaRow}>
+          <Text style={styles.cardSource}>{section.source}</Text>
+          <Text
+            style={[styles.cardMetaDot, { color: "rgba(255,255,255,0.6)" }]}
+          >
+            •
+          </Text>
+          <Text style={styles.cardRepetisi}>{section.repetition}x</Text>
         </View>
       </View>
 
@@ -330,7 +328,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   cardHeader: {
-    flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: Spacing.three,
     paddingVertical: Spacing.two,
@@ -341,8 +338,9 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#fff",
     marginBottom: 3,
+    textAlign: "center",
   },
-  cardMetaRow: { flexDirection: "row", alignItems: "center" },
+  cardMetaRow: { flexDirection: "row", alignItems: "center", justifyContent: "center" },
   cardSource: {
     fontSize: 11,
     color: "rgba(255,255,255,0.75)",

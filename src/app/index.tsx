@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Colors, Spacing } from '@/constants/theme';
@@ -79,26 +79,14 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Stats */}
-      <View style={[styles.statsContainer, { backgroundColor: colors.backgroundElement, borderColor: colors.glassBorder, borderWidth: 1 }]}>
-        <Text style={[styles.statsTitle, { color: colors.text }]}>📊 Statistik</Text>
-        <View style={styles.statsRow}>
-          <View style={styles.statItem}>
-            <Text style={[styles.statNumber, { color: colors.accent }]}>{quranData.length}</Text>
-            <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Surah</Text>
-          </View>
-          <View style={[styles.statDivider, { backgroundColor: colors.glassBorder }]} />
-          <View style={styles.statItem}>
-            <Text style={[styles.statNumber, { color: colors.primary }]}>{kitabData.length}</Text>
-            <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Kitab</Text>
-          </View>
-          <View style={[styles.statDivider, { backgroundColor: colors.glassBorder }]} />
-          <View style={styles.statItem}>
-            <Text style={[styles.statNumber, { color: colors.accent2 }]}>100%</Text>
-            <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Offline</Text>
-          </View>
-        </View>
-      </View>
+      {/* Floating Donasi Button */}
+      <TouchableOpacity
+        style={[styles.donasiBtn, { backgroundColor: colors.accent }]}
+        activeOpacity={0.85}
+        onPress={() => Linking.openURL('https://saweria.co/rahmattb')}
+      >
+        <Text style={styles.donasiText}>Donasi untuk Pengembangan</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -120,11 +108,25 @@ const styles = StyleSheet.create({
   menuEmoji: { fontSize: 40, marginBottom: Spacing.two },
   menuTitle: { color: '#fff', fontSize: 19, fontWeight: '700' },
   menuDesc: { color: 'rgba(255,255,255,0.7)', fontSize: 13, marginTop: 4 },
-  statsContainer: { marginHorizontal: Spacing.three, padding: Spacing.three, borderRadius: 12 },
-  statsTitle: { fontSize: 15, fontWeight: '700', marginBottom: Spacing.two },
-  statsRow: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' },
-  statItem: { alignItems: 'center', flex: 1 },
-  statDivider: { width: 1, height: 32, borderRadius: 1 },
-  statNumber: { fontSize: 24, fontWeight: '700' },
-  statLabel: { fontSize: 12, marginTop: 4 },
+  donasiBtn: {
+    position: 'absolute',
+    bottom: 30,
+    left: 40,
+    right: 40,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 14,
+    borderRadius: 30,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 8,
+  },
+  donasiText: {
+    color: '#fff',
+    fontWeight: '700',
+    fontSize: 16,
+  },
 });
