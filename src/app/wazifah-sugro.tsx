@@ -85,7 +85,7 @@ export default function WazifahSugroScreen() {
         renderItem={({ item, index }) => (
           <ScrollView
             style={{ width: Dimensions.get('window').width }}
-            contentContainerStyle={{ paddingHorizontal: Spacing.three, paddingBottom: insets.bottom + 40, alignItems: 'center' }}
+            contentContainerStyle={{ paddingHorizontal: Spacing.two, paddingBottom: insets.bottom + 40, alignItems: 'center' }}
             showsVerticalScrollIndicator={false}
           >
             <SectionCard
@@ -135,15 +135,12 @@ function SectionCard({
           borderColor: colors.glassBorder,
           borderWidth: 1,
           borderRadius: 16,
-          marginHorizontal: Spacing.three,
+          marginHorizontal: Spacing.two,
         },
       ]}
     >
-      {/* Card Header: Nomor + Judul + Info */}
+      {/* Card Header: Judul + Info (tanpa nomor section) */}
       <View style={[styles.cardHeader, { backgroundColor: accentColor, borderTopLeftRadius: isFirst ? 15 : 11, borderTopRightRadius: isFirst ? 15 : 11 }]}>
-        <View style={styles.cardHeaderLeft}>
-          <Text style={styles.cardNomor}>{section.section_number}</Text>
-        </View>
         <View style={styles.cardHeaderRight}>
           <Text style={styles.cardTitle}>{section.title}</Text>
           <View style={styles.cardMetaRow}>
@@ -223,16 +220,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: Spacing.three,
     paddingVertical: Spacing.two,
-  },
-  cardHeaderLeft: {
-    marginRight: Spacing.two,
-  },
-  cardNomor: {
-    fontSize: 22,
-    fontWeight: '900',
-    color: '#fff',
-    textAlign: 'center',
-    minWidth: 36,
   },
   cardHeaderRight: { flex: 1 },
   cardTitle: {

@@ -51,9 +51,6 @@ export default function WazifahReaderScreen() {
       {wazifah.sections.map((section) => (
         <View key={section.section_number} style={[styles.sectionCard, { backgroundColor: colors.backgroundElement, borderColor: colors.glassBorder, borderWidth: 1 }]}>
           <View style={styles.sectionHeader}>
-            <View style={[styles.sectionNumber, { backgroundColor: wazifah.id === 'sugro' ? colors.accent : colors.accent2 }]}>
-              <Text style={styles.sectionNumberText}>{section.section_number}</Text>
-            </View>
             <View style={{ flex: 1 }}>
               <Text style={[styles.sectionTitle, { color: colors.text }]}>{section.title}</Text>
               <Text style={[styles.sectionSource, { color: colors.textSecondary }]}>
@@ -86,8 +83,6 @@ const styles = StyleSheet.create({
   headerDesc: { fontSize: 14, color: 'rgba(255,255,255,0.8)', marginTop: 6, textAlign: 'center' },
   sectionCard: { marginHorizontal: Spacing.three, marginTop: Spacing.three, padding: Spacing.three, borderRadius: 12 },
   sectionHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: Spacing.three },
-  sectionNumber: { width: 36, height: 36, borderRadius: 10, justifyContent: 'center', alignItems: 'center', marginRight: Spacing.two },
-  sectionNumberText: { color: '#fff', fontSize: 15, fontWeight: '800' },
   sectionTitle: { fontSize: 16, fontWeight: '700' },
   sectionSource: { fontSize: 12, marginTop: 3 },
   arabicText: { textAlign: 'right', fontFamily: 'KFGQPC-Uthmanic-HAFS', fontWeight: '600', marginBottom: Spacing.two },

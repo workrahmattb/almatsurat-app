@@ -49,8 +49,8 @@ export default function HomeScreen() {
         >
           <Text style={styles.continueLabel}>📖 Lanjutkan Membaca</Text>
           <Text style={styles.continueTitle}>{latestProgress.title}</Text>
-          {latestProgress.section_number && (
-            <Text style={styles.continueSubtitle}>Section {latestProgress.section_number}{latestProgress.section_title ? ' — ' + latestProgress.section_title : ''}</Text>
+          {latestProgress.section_title && (
+            <Text style={styles.continueSubtitle}>{latestProgress.section_title}</Text>
           )}
           {latestProgress.subtitle && (
             <Text style={styles.continueSubtitle}>{latestProgress.subtitle}</Text>
