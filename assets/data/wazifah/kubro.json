@@ -59,6 +59,7 @@
     {
       "section_number": 3,
       "title": "Al-Baqarah ayat 1-5",
+      "header_bismillah": true,
       "arabic": "الٓمٓ ۝ ذَٰلِكَ ٱلۡكِتَٰبُ لَا رَيۡبَۛ فِيهِۛ هُدٗى لِّلۡمُتَّقِينَ ۝ ٱلَّذِينَ يُؤۡمِنُونَ بِٱلۡغَيۡبِ وَيُقِيمُونَ ٱلصَّلَوٰةَ وَمِمَّا رَزَقۡنَٰهُمۡ يُنفِقُونَ ۝ وَٱلَّذِينَ يُؤۡمِنُونَ بِمَآ أُنزِلَ إِلَيۡكَ وَمَآ أُنزِلَ مِن قَبۡلِكَ وَبِٱلۡأٓخِرَةِ هُمۡ يُوقِنُونَ ۝ أُوْلَٰٓئِكَ عَلَىٰ هُدٗى مِّن رَّبِّهِمۡۖ وَأُوْلَٰٓئِكَ هُمُ ٱلۡمُفۡلِحُونَ",
       "translation": "Alif Laam Miim. Kitab (Al-Qur'an) ini tidak ada keraguan padanya; petunjuk bagi mereka yang bertakwa. (yaitu) mereka yang beriman kepada yang gaib, yang mendirikan shalat dan menafkahkan sebahagian rezki yang Kami anugerahkan kepada mereka. Dan mereka yang beriman kepada Kitab (Al-Qur'an) yang telah diturunkan kepadamu dan Kitab-kitab yang telah diturunkan sebelummu, serta mereka yakin akan adanya (kehidupan) akhirat. Mereka itulah yang tetap mendapat petunjuk dari Tuhan mereka, dan merekalah orang-orang yang beruntung.",
       "repetition": 1,
@@ -495,7 +496,8 @@
           "arabic": "وَلَمۡ يَكُن لَّهُۥ كُفُوًا أَحَدُۢ",
           "translation": ""
         }
-      ]
+      ],
+      "header_bismillah": true
     },
     {
       "section_number": 19,
@@ -530,7 +532,8 @@
           "arabic": "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ",
           "translation": ""
         }
-      ]
+      ],
+      "header_bismillah": true
     },
     {
       "section_number": 20,
@@ -570,7 +573,8 @@
           "arabic": "مِنَ ٱلۡجِنَّةِ وَٱلنَّاسِ",
           "translation": ""
         }
-      ]
+      ],
+      "header_bismillah": true
     },
     {
       "section_number": 21,

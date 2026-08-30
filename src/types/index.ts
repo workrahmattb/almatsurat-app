@@ -37,6 +37,7 @@ export interface WazifahSection {
   translation: string;
   repetition: number;
   source: string;
+  header_bismillah?: boolean; // Tampilkan Bismillah di header card (hanya untuk beberapa section tertentu)
 }
 
 export interface Wazifah {

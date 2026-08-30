@@ -59,6 +59,13 @@ export default function WazifahReaderScreen() {
             </View>
           </View>
 
+          {/* Bismillah header jika diperlukan */}
+          {(section as any).header_bismillah && (
+            <Text style={[styles.bismillahText, { fontSize: arabicFontSize * 0.9, color: '#000000', marginBottom: Spacing.one }]}>
+              بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+            </Text>
+          )}
+
           <Text style={[styles.arabicText, { color: colors.text, fontSize: arabicFontSize, lineHeight: arabicFontSize * 1.8 }]}>
             {section.arabic}
           </Text>
@@ -88,4 +95,5 @@ const styles = StyleSheet.create({
   arabicText: { textAlign: 'right', fontFamily: 'KFGQPC-Uthmanic-HAFS', fontWeight: '600', marginBottom: Spacing.two },
   transliterationText: { fontStyle: 'italic', marginBottom: Spacing.two },
   translationText: { fontWeight: '500', marginTop: 4 },
+  bismillahText: { textAlign: 'right', fontFamily: 'KFGQPC-Uthmanic-HAFS', fontWeight: '600' },
 });
