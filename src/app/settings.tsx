@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Colors, Spacing } from '@/constants/theme';
+import { Colors, Radius, Shadows, Spacing } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useSettingsStore } from '@/stores';
 
@@ -150,11 +150,11 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   header: { paddingHorizontal: Spacing.four, paddingTop: Spacing.four + 20, paddingBottom: Spacing.three },
   headerTitle: { fontSize: 28, fontWeight: '700' },
-  section: { marginHorizontal: Spacing.three, marginBottom: Spacing.two, padding: Spacing.three, borderRadius: 12 },
+  section: { marginHorizontal: Spacing.three, marginBottom: Spacing.two, padding: Spacing.three, borderRadius: Radius.lg, ...Shadows.card },
   sectionTitle: { fontSize: 15, fontWeight: '700', marginBottom: Spacing.one },
   sectionDesc: { fontSize: 13, marginBottom: Spacing.two },
   fontRow: { flexDirection: 'row', gap: Spacing.one, flexWrap: 'wrap' },
-  fontOption: { width: 48, height: 48, borderRadius: 12, justifyContent: 'center', alignItems: 'center', borderWidth: 1 },
+  fontOption: { width: 48, height: 48, borderRadius: Radius.md, justifyContent: 'center', alignItems: 'center', borderWidth: 1 },
   footer: { alignItems: 'center', paddingVertical: Spacing.four, gap: 4 },
   footerText: { fontSize: 13 },
 });

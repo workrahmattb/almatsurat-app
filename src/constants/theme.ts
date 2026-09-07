@@ -6,7 +6,7 @@ export const Colors = {
   light: {
     text: '#0a2e1d',
     textSecondary: '#4a6b52',
-    background: '#f6faf7',
+    background: '#eef1f4',
     backgroundElement: '#ffffff',
     backgroundSelected: '#e8f5ee',
     glassBorder: '#d4eadd',
@@ -30,6 +30,42 @@ export const Colors = {
     accent2: '#4dbf85',
     accent3: '#1b7a4e',
     surface: '#0f2d1c',
+  },
+} as const;
+
+export type ThemePalette = (typeof Colors)[keyof typeof Colors];
+
+/** Rounded corner presets — modern, soft look */
+export const Radius = {
+  sm: 10,
+  md: 14,
+  lg: 20,
+  xl: 28,
+  pill: 999,
+} as const;
+
+/** Cross-platform shadow presets (iOS shadow* + Android elevation) */
+export const Shadows = {
+  soft: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 6,
+    elevation: 2,
+  },
+  card: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  elevated: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.16,
+    shadowRadius: 18,
+    elevation: 8,
   },
 } as const;
 

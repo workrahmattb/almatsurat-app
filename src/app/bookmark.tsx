@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Colors, Spacing } from '@/constants/theme';
+import { Colors, Radius, Shadows, Spacing } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useBookmarkStore } from '@/stores';
 import type { Bookmark } from '@/types';
@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
   emptyEmoji: { fontSize: 64, marginBottom: Spacing.three },
   emptyText: { fontSize: 18, fontWeight: '600', marginBottom: Spacing.one },
   emptySubtext: { fontSize: 14, textAlign: 'center', lineHeight: 20 },
-  bookmarkCard: { flexDirection: 'row', alignItems: 'center', marginHorizontal: Spacing.three, marginBottom: Spacing.one, padding: Spacing.three, borderRadius: 12 },
-  bookmarkIcon: { width: 48, height: 48, borderRadius: 12, justifyContent: 'center', alignItems: 'center', marginRight: Spacing.three },
+  bookmarkCard: { flexDirection: 'row', alignItems: 'center', marginHorizontal: Spacing.three, marginBottom: Spacing.one, padding: Spacing.three, borderRadius: Radius.lg, ...Shadows.card },
+  bookmarkIcon: { width: 48, height: 48, borderRadius: Radius.md, justifyContent: 'center', alignItems: 'center', marginRight: Spacing.three, ...Shadows.soft },
   bookmarkEmoji: { fontSize: 24 },
   bookmarkInfo: { flex: 1 },
   bookmarkTitle: { fontSize: 16, fontWeight: '700' },

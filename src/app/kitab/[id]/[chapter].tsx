@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Colors, Spacing } from '@/constants/theme';
+import { Colors, Radius, Shadows, Spacing } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useBookmarkStore, useProgressStore, useSettingsStore } from '@/stores';
 import { getKitabById } from '@/assets/data';
@@ -56,6 +56,7 @@ export default function ChapterReaderScreen() {
   return (
     <ScrollView style={[styles.container, { backgroundColor: colors.background }]} contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}>
       <View style={[styles.chapterHeader, { backgroundColor: colors.accent }]}>
+
         <Text style={styles.kitabTitle}>{kitab.title}</Text>
         <Text style={styles.chapterTitle}>Bab {chapterNumber}: {chapterData.chapter_title}</Text>
         <TouchableOpacity onPress={handleBookmark} style={[styles.bookmarkBtn, { backgroundColor: 'rgba(255,255,255,0.15)', borderColor: 'rgba(255,255,255,0.3)', borderWidth: 1, borderRadius: 12 }]}>
@@ -63,7 +64,7 @@ export default function ChapterReaderScreen() {
         </TouchableOpacity>
       </View>
 
-      <View style={[styles.contentContainer, { backgroundColor: colors.backgroundElement, borderColor: colors.glassBorder, borderWidth: 1, borderRadius: 12, marginHorizontal: Spacing.three, marginTop: Spacing.three, padding: Spacing.four }]}>
+      <View style={[styles.contentContainer, { backgroundColor: colors.backgroundElement, borderColor: colors.glassBorder, borderWidth: 1, borderRadius: Radius.lg, marginHorizontal: Spacing.three, marginTop: Spacing.three, padding: Spacing.four, ...Shadows.card }]}>
         <Text style={[styles.contentText, { color: colors.text, fontSize: translationFontSize, lineHeight: translationFontSize * 1.7 }]}>
           {chapterData.content}
         </Text>
@@ -87,7 +88,7 @@ export default function ChapterReaderScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  chapterHeader: { paddingHorizontal: Spacing.four, paddingVertical: Spacing.four, alignItems: 'center' },
+  chapterHeader: { paddingHorizontal: Spacing.four, paddingVertical: Spacing.four, alignItems: 'center', borderBottomLeftRadius: Radius.xl, borderBottomRightRadius: Radius.xl, ...Shadows.soft },
   kitabTitle: { fontSize: 14, color: 'rgba(255,255,255,0.8)', marginBottom: 4 },
   chapterTitle: { fontSize: 22, color: '#fff', fontWeight: '700', textAlign: 'center' },
   bookmarkBtn: { marginTop: Spacing.two, paddingVertical: 8, paddingHorizontal: 16 },
@@ -95,6 +96,6 @@ const styles = StyleSheet.create({
   contentContainer: { paddingHorizontal: Spacing.four, paddingTop: Spacing.three },
   contentText: { textAlign: 'justify' },
   navContainer: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: Spacing.three, paddingTop: Spacing.four, gap: Spacing.two },
-  navButton: { flex: 1, paddingVertical: Spacing.two, paddingHorizontal: Spacing.three, borderRadius: 12, alignItems: 'center' },
+  navButton: { flex: 1, paddingVertical: Spacing.two, paddingHorizontal: Spacing.three, borderRadius: Radius.md, alignItems: 'center', ...Shadows.soft },
   navButtonText: { fontSize: 14, fontWeight: '600' },
 });

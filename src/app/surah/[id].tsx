@@ -1,14 +1,15 @@
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, type ListRenderItemInfo } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Colors, Spacing } from '@/constants/theme';
+import { getSurahById } from '@/assets/data';
+import { Colors, Radius, Shadows, Spacing, type ThemePalette } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { useProgressStore, useSettingsStore } from '@/stores';
-import { getWazifahById } from '@/assets/data/wazifah';
+import { useBookmarkStore, useProgressStore, useSettingsStore } from '@/stores';
+import type { Ayat, Surah } from '@/types';
 
-export default function WazifahReaderScreen() {
+export default function SurahReaderScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
@@ -19,81 +20,143 @@ export default function WazifahReaderScreen() {
   const { arabicFontSize, translationFontSize } = useSettingsStore();
   const updateProgress = useProgressStore((s) => s.updateProgress);
 
-  const wazifah = getWazifahById(id as 'sugro' | 'kubro');
+  const surah = getSurahById(Number(id));
 
   useEffect(() => {
-    if (wazifah) {
-      navigation.setOptions({ title: wazifah.title });
-      updateProgress({ type: 'wazifah', reference_id: wazifah.id, title: wazifah.title });
+    if (surah) {
+      navigation.setOptions({ title: surah.name_latin });
+      updateProgress({
+        type: 'surah',
+        reference_id: String(surah.id),
+        title: surah.name_latin,
+      });
     }
-  }, [wazifah, navigation, updateProgress]);
+  }, [surah, navigation, updateProgress]);
 
-  if (!wazifah) {
+  if (!surah) {
     return (
       <View style={[styles.container, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }]}>
-        <Text style={{ color: colors.text, fontSize: 18 }}>Wazifah tidak ditemukan</Text>
+        <Text style={{ color: colors.text, fontSize: 18 }}>Surah tidak ditemukan</Text>
       </View>
     );
   }
 
-  const bannerColor = wazifah.id === 'sugro' ? colors.primary : colors.accent;
+  const renderAyat = ({ item }: ListRenderItemInfo<Ayat>) => (
+    <AyatRow
+      surah={surah}
+      ayat={item}
+      colors={colors}
+      arabicFontSize={arabicFontSize}
+      translationFontSize={translationFontSize}
+    />
+  );
 
   return (
-    <ScrollView
+    <FlatList
       style={[styles.container, { backgroundColor: colors.background }]}
-      contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}
-    >
-      <View style={[styles.header, { backgroundColor: bannerColor }]}>
-        <Text style={styles.headerTitle}>{wazifah.title}</Text>
-        <Text style={styles.headerDesc}>{wazifah.description}</Text>
-      </View>
-
-      {wazifah.sections.map((section) => (
-        <View key={section.section_number} style={[styles.sectionCard, { backgroundColor: colors.backgroundElement, borderColor: colors.glassBorder, borderWidth: 1 }]}>
-          <View style={styles.sectionHeader}>
-            <View style={{ flex: 1 }}>
-              <Text style={[styles.sectionTitle, { color: colors.text }]}>{section.title}</Text>
-              <Text style={[styles.sectionSource, { color: colors.textSecondary }]}>
-                {section.source} • {section.repetition}x
-              </Text>
-            </View>
-          </View>
-
-          {/* Bismillah header jika diperlukan */}
-          {(section as any).header_bismillah && (
-            <Text style={[styles.bismillahText, { fontSize: arabicFontSize * 0.9, color: '#000000', marginBottom: Spacing.one }]}>
-              بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
-            </Text>
-          )}
-
-          <Text style={[styles.arabicText, { color: colors.text, fontSize: arabicFontSize, lineHeight: arabicFontSize * 1.8 }]}>
-            {section.arabic}
-          </Text>
-
-          <Text style={[styles.transliterationText, { color: colors.textSecondary, fontSize: translationFontSize, lineHeight: translationFontSize * 1.5 }]}>
-            {section.transliteration}
-          </Text>
-
-          <Text style={[styles.translationText, { color: colors.textSecondary, fontSize: translationFontSize, lineHeight: translationFontSize * 1.6 }]}>
-            {section.translation}
+      data={surah.ayat}
+      keyExtractor={(item) => String(item.number)}
+      renderItem={renderAyat}
+      ListHeaderComponent={
+        <View style={[styles.header, { backgroundColor: colors.primary }]}>
+          <Text style={styles.headerArabic}>{surah.name_arabic}</Text>
+          <Text style={styles.headerLatin}>{surah.name_latin}</Text>
+          <Text style={styles.headerMeta}>
+            {surah.translation_id} • {surah.total_ayat} ayat
           </Text>
         </View>
-      ))}
-    </ScrollView>
+      }
+      contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}
+      showsVerticalScrollIndicator={false}
+    />
+  );
+}
+
+function AyatRow({
+  surah,
+  ayat,
+  colors,
+  arabicFontSize,
+  translationFontSize,
+}: {
+  surah: Surah;
+  ayat: Ayat;
+  colors: ThemePalette;
+  arabicFontSize: number;
+  translationFontSize: number;
+}) {
+  const isBookmarked = useBookmarkStore((s) => s.isBookmarked('ayat', surah.id, ayat.number));
+  const addBookmark = useBookmarkStore((s) => s.addBookmark);
+  const removeBookmark = useBookmarkStore((s) => s.removeBookmark);
+  const getBookmarkId = useBookmarkStore((s) => s.getBookmarkId);
+
+  const handleBookmark = () => {
+    if (isBookmarked) {
+      const bookmarkId = getBookmarkId('ayat', surah.id, ayat.number);
+      if (bookmarkId) removeBookmark(bookmarkId);
+    } else {
+      addBookmark({
+        type: 'ayat',
+        surah_id: surah.id,
+        surah_name: surah.name_latin,
+        ayat_number: ayat.number,
+      });
+    }
+  };
+
+  return (
+    <View
+      style={[
+        styles.ayatCard,
+        { backgroundColor: colors.backgroundElement, borderColor: colors.glassBorder, borderWidth: 1 },
+      ]}
+    >
+      <View style={styles.ayatHeader}>
+        <View style={[styles.ayatNumberBadge, { backgroundColor: colors.accent3 }]}>
+          <Text style={[styles.ayatNumberText, { color: colors.accent }]}>{ayat.number}</Text>
+        </View>
+        <TouchableOpacity onPress={handleBookmark} hitSlop={8} style={styles.bookmarkBtn}>
+          <Text style={styles.bookmarkIcon}>{isBookmarked ? '❤️' : '🤍'}</Text>
+        </TouchableOpacity>
+      </View>
+
+      <Text
+        style={[
+          styles.arabicText,
+          { color: colors.text, fontSize: arabicFontSize, lineHeight: arabicFontSize * 1.9 },
+        ]}
+      >
+        {ayat.arabic}
+      </Text>
+
+      <Text
+        style={[
+          styles.translationText,
+          {
+            color: colors.textSecondary,
+            fontSize: translationFontSize,
+            lineHeight: translationFontSize * 1.7,
+          },
+        ]}
+      >
+        {ayat.translation}
+      </Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  header: { paddingHorizontal: Spacing.four, paddingVertical: Spacing.four, alignItems: 'center' },
-  headerTitle: { fontSize: 28, color: '#fff', fontWeight: '800', textAlign: 'center' },
-  headerDesc: { fontSize: 14, color: 'rgba(255,255,255,0.8)', marginTop: 6, textAlign: 'center' },
-  sectionCard: { marginHorizontal: Spacing.three, marginTop: Spacing.three, padding: Spacing.three, borderRadius: 12 },
-  sectionHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: Spacing.three },
-  sectionTitle: { fontSize: 16, fontWeight: '700' },
-  sectionSource: { fontSize: 12, marginTop: 3 },
-  arabicText: { textAlign: 'right', fontFamily: 'KFGQPC-Uthmanic-HAFS', fontWeight: '600', marginBottom: Spacing.two },
-  transliterationText: { fontStyle: 'italic', marginBottom: Spacing.two },
-  translationText: { fontWeight: '500', marginTop: 4 },
-  bismillahText: { textAlign: 'right', fontFamily: 'KFGQPC-Uthmanic-HAFS', fontWeight: '600' },
+  header: { alignItems: 'center', paddingHorizontal: Spacing.four, paddingVertical: Spacing.four, marginBottom: Spacing.two, borderBottomLeftRadius: Radius.xl, borderBottomRightRadius: Radius.xl, ...Shadows.soft },
+  headerArabic: { color: '#fff', fontFamily: 'KFGQPC-Uthmanic-HAFS', fontSize: 38, textAlign: 'center', marginBottom: Spacing.two },
+  headerLatin: { color: '#fff', fontSize: 22, fontWeight: '800', textAlign: 'center' },
+  headerMeta: { color: 'rgba(255,255,255,0.8)', fontSize: 13, marginTop: 4, textAlign: 'center' },
+  ayatCard: { marginHorizontal: Spacing.three, marginBottom: Spacing.two, padding: Spacing.three, borderRadius: Radius.lg, ...Shadows.card },
+  ayatHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: Spacing.two },
+  ayatNumberBadge: { minWidth: 28, height: 28, borderRadius: 14, justifyContent: 'center', alignItems: 'center', paddingHorizontal: Spacing.one },
+  ayatNumberText: { fontSize: 13, fontWeight: '800' },
+  bookmarkBtn: { padding: 4 },
+  bookmarkIcon: { fontSize: 18 },
+  arabicText: { textAlign: 'right', fontFamily: 'KFGQPC-Uthmanic-HAFS', fontWeight: '600', marginBottom: Spacing.one },
+  translationText: { fontWeight: '500' },
 });

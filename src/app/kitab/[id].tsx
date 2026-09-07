@@ -1,185 +1,97 @@
-import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import { useEffect } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, type ListRenderItemInfo } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Colors, Spacing } from '@/constants/theme';
+import { getKitabById } from '@/assets/data';
+import { Colors, Radius, Shadows, Spacing } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { useProgressStore, useSettingsStore } from '@/stores';
-import { getWazifahById } from '@/assets/data/wazifah';
+import { useProgressStore } from '@/stores';
+import type { KitabChapter } from '@/types';
 
-export default function WazifahKubroReaderScreen() {
+export default function KitabScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const router = useRouter();
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
   const colors = Colors[isDark ? 'dark' : 'light'];
 
-  const { arabicFontSize, translationFontSize } = useSettingsStore();
   const updateProgress = useProgressStore((s) => s.updateProgress);
 
-  const wazifah = getWazifahById(id as 'sugro' | 'kubro');
+  const kitab = getKitabById(id ?? '');
 
   useEffect(() => {
-    if (wazifah) {
-      navigation.setOptions({ title: wazifah.title });
-
-      // Update reading progress
+    if (kitab) {
+      navigation.setOptions({ title: kitab.title });
       updateProgress({
-        type: 'wazifah',
-        reference_id: wazifah.id,
-        title: wazifah.title,
+        type: 'kitab',
+        reference_id: kitab.id,
+        title: kitab.title,
       });
     }
-  }, [wazifah, navigation, updateProgress]);
+  }, [kitab, navigation, updateProgress]);
 
-  if (!wazifah) {
+  if (!kitab) {
     return (
       <View style={[styles.container, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }]}>
-        <Text style={{ color: colors.text, fontSize: 18 }}>Wazifah tidak ditemukan</Text>
+        <Text style={{ color: colors.text, fontSize: 18 }}>Kitab tidak ditemukan</Text>
       </View>
     );
   }
 
-  return (
-    <ScrollView
-      style={[styles.container, { backgroundColor: colors.background }]}
-      contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}
+  const renderChapter = ({ item }: ListRenderItemInfo<KitabChapter>) => (
+    <TouchableOpacity
+      style={[
+        styles.chapterCard,
+        { backgroundColor: colors.backgroundElement, borderColor: colors.glassBorder, borderWidth: 1 },
+      ]}
+      onPress={() => router.push(`/kitab/${kitab.id}/${item.chapter_number}`)}
     >
-      {/* Header */}
-      <View style={[styles.header, { backgroundColor: '#5c3a1a' }]}>
-        <Text style={styles.headerTitle}>{wazifah.title}</Text>
-        <Text style={styles.headerDesc}>{wazifah.description}</Text>
+      <View style={[styles.chapterNumber, { backgroundColor: colors.accent2 }]}>
+        <Text style={styles.chapterNumberText}>{item.chapter_number}</Text>
       </View>
+      <View style={styles.chapterInfo}>
+        <Text style={[styles.chapterTitle, { color: colors.text }]}>{item.chapter_title}</Text>
+        <Text style={[styles.chapterMeta, { color: colors.textSecondary }]}>Bab {item.chapter_number}</Text>
+      </View>
+      <Text style={[styles.chevron, { color: colors.textSecondary }]}>›</Text>
+    </TouchableOpacity>
+  );
 
-      {/* Sections */}
-      {wazifah.sections.map((section) => (
-        <View key={section.section_number} style={[styles.sectionCard, { backgroundColor: colors.backgroundElement }]}>
-          {/* Section Title */}
-          <View style={styles.sectionHeader}>
-            <View style={[styles.sectionNumber, { backgroundColor: '#5c3a1a' }]}>
-              <Text style={styles.sectionNumberText}>{section.section_number}</Text>
-            </View>
-            <View style={{ flex: 1 }}>
-              <Text style={[styles.sectionTitle, { color: colors.text }]}>{section.title}</Text>
-              <Text style={[styles.sectionSource, { color: colors.textSecondary }]}>
-                {section.source} • {section.repetition}x
-              </Text>
-            </View>
-          </View>
-
-          {/* Arabic Text */}
-          <Text
-            style={[
-              styles.arabicText,
-              {
-                color: colors.text,
-                fontSize: arabicFontSize,
-                lineHeight: arabicFontSize * 1.8,
-              },
-            ]}
-          >
-            {section.arabic}
-          </Text>
-
-          {/* Transliteration */}
-          <Text
-            style={[
-              styles.transliterationText,
-              {
-                color: colors.textSecondary,
-                fontSize: translationFontSize,
-                lineHeight: translationFontSize * 1.5,
-              },
-            ]}
-          >
-            {section.transliteration}
-          </Text>
-
-          {/* Translation */}
-          <Text
-            style={[
-              styles.translationText,
-              {
-                color: colors.textSecondary,
-                fontSize: translationFontSize,
-                lineHeight: translationFontSize * 1.6,
-              },
-            ]}
-          >
-            {section.translation}
-          </Text>
+  return (
+    <FlatList
+      style={[styles.container, { backgroundColor: colors.background }]}
+      data={kitab.chapters}
+      keyExtractor={(item) => String(item.chapter_number)}
+      renderItem={renderChapter}
+      ListHeaderComponent={
+        <View style={[styles.header, { backgroundColor: colors.accent }]}>
+          <Text style={styles.headerTitle}>{kitab.title}</Text>
+          <Text style={styles.headerAuthor}>{kitab.author}</Text>
+          {kitab.description ? <Text style={styles.headerDesc}>{kitab.description}</Text> : null}
+          <Text style={styles.headerMeta}>{kitab.chapters.length} bab</Text>
         </View>
-      ))}
-    </ScrollView>
+      }
+      contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}
+      showsVerticalScrollIndicator={false}
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.four,
-    alignItems: 'center',
-  },
-  headerTitle: {
-    fontSize: 24,
-    color: '#fff',
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-  headerDesc: {
-    fontSize: 14,
-    color: 'rgba(255,255,255,0.8)',
-    marginTop: 4,
-    textAlign: 'center',
-  },
-  sectionCard: {
-    marginHorizontal: Spacing.three,
-    marginTop: Spacing.three,
-    padding: Spacing.three,
-    borderRadius: 12,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: Spacing.three,
-  },
-  sectionNumber: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: Spacing.two,
-  },
-  sectionNumberText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '700',
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-  },
-  sectionSource: {
-    fontSize: 12,
-    marginTop: 2,
-  },
-  arabicText: {
-    textAlign: 'right',
-    fontFamily: 'KFGQPC-Uthmanic-HAFS',
-    fontWeight: '600',
-    marginBottom: Spacing.two,
-  },
-  transliterationText: {
-    fontStyle: 'italic',
-    marginBottom: Spacing.two,
-  },
-  translationText: {
-    fontWeight: '500',
-  },
+  container: { flex: 1 },
+  header: { alignItems: 'center', paddingHorizontal: Spacing.four, paddingVertical: Spacing.four, marginBottom: Spacing.two, borderBottomLeftRadius: Radius.xl, borderBottomRightRadius: Radius.xl, ...Shadows.soft },
+  headerTitle: { color: '#fff', fontSize: 26, fontWeight: '800', textAlign: 'center' },
+  headerAuthor: { color: 'rgba(255,255,255,0.85)', fontSize: 14, marginTop: 4, textAlign: 'center' },
+  headerDesc: { color: 'rgba(255,255,255,0.75)', fontSize: 13, marginTop: 8, textAlign: 'center', lineHeight: 19 },
+  headerMeta: { color: 'rgba(255,255,255,0.8)', fontSize: 12, marginTop: 8, fontWeight: '600' },
+  chapterCard: { flexDirection: 'row', alignItems: 'center', marginHorizontal: Spacing.three, marginBottom: Spacing.two, padding: Spacing.three, borderRadius: Radius.lg, ...Shadows.card },
+  chapterNumber: { width: 40, height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center', marginRight: Spacing.three },
+  chapterNumberText: { color: '#fff', fontSize: 16, fontWeight: '700' },
+  chapterInfo: { flex: 1 },
+  chapterTitle: { fontSize: 16, fontWeight: '700' },
+  chapterMeta: { fontSize: 12, marginTop: 2 },
+  chevron: { fontSize: 22, fontWeight: '700', marginLeft: Spacing.two },
 });

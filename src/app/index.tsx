@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router';
 import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { Colors, Spacing } from '@/constants/theme';
+import { Colors, Radius, Shadows, Spacing } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useProgressStore } from '@/stores';
 import { quranData, kitabData } from '@/assets/data';
@@ -61,7 +61,7 @@ export default function HomeScreen() {
       {/* Main Menu */}
       <View style={styles.menuContainer}>
         <TouchableOpacity
-          style={[styles.menuCard, { backgroundColor: colors.primary }]}
+          style={[styles.menuCard, { backgroundColor: colors.accent2 }]}
           onPress={() => router.push('/wazifah-sugro')}
         >
           <Text style={styles.menuEmoji}>📖</Text>
@@ -70,7 +70,7 @@ export default function HomeScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.menuCard, { backgroundColor: colors.accent }]}
+          style={[styles.menuCard, { backgroundColor: colors.accent2 }]}
           onPress={() => router.push('/wazifah-kubro')}
         >
           <Text style={styles.menuEmoji}>📚</Text>
@@ -97,17 +97,23 @@ const styles = StyleSheet.create({
   headerLeft: { flex: 1 },
   appName: { fontSize: 30, fontWeight: '700' },
   subtitle: { fontSize: 14, marginTop: 4 },
-  settingsBtn: { width: 44, height: 44, borderRadius: 12, justifyContent: 'center', alignItems: 'center', marginTop: 4 },
+  settingsBtn: { width: 44, height: 44, borderRadius: Radius.md, justifyContent: 'center', alignItems: 'center', marginTop: 4, ...Shadows.soft },
   settingsIcon: { fontSize: 20, color: '#fff', fontWeight: '700' },
-  continueCard: { marginHorizontal: Spacing.three, marginBottom: Spacing.three, padding: Spacing.three, borderRadius: 12, borderLeftWidth: 4 },
+  continueCard: { marginHorizontal: Spacing.three, marginBottom: Spacing.three, padding: Spacing.four, borderRadius: Radius.lg, borderLeftWidth: 4, ...Shadows.elevated },
   continueLabel: { fontSize: 11, fontWeight: '600', color: 'rgba(255,255,255,0.8)', textTransform: 'uppercase', marginBottom: 4 },
   continueTitle: { fontSize: 18, fontWeight: '700', color: '#fff' },
   continueSubtitle: { fontSize: 13, marginTop: 4, color: 'rgba(255,255,255,0.7)' },
-  menuContainer: { paddingHorizontal: Spacing.three, gap: Spacing.two, marginBottom: Spacing.three },
-  menuCard: { padding: Spacing.four, borderRadius: 14, alignItems: 'center' },
+  menuContainer: { flexDirection: 'row', paddingHorizontal: Spacing.three, gap: Spacing.two, marginBottom: Spacing.three },
+  menuCard: {
+    flex: 1,
+    padding: Spacing.four,
+    borderRadius: Radius.lg,
+    alignItems: 'center',
+    ...Shadows.card,
+  },
   menuEmoji: { fontSize: 40, marginBottom: Spacing.two },
-  menuTitle: { color: '#fff', fontSize: 19, fontWeight: '700' },
-  menuDesc: { color: 'rgba(255,255,255,0.7)', fontSize: 13, marginTop: 4 },
+  menuTitle: { color: '#fff', fontSize: 19, fontWeight: '700', textAlign: 'center' },
+  menuDesc: { color: 'rgba(255,255,255,0.7)', fontSize: 13, marginTop: 4, textAlign: 'center' },
   donasiBtn: {
     position: 'absolute',
     bottom: 30,
@@ -117,12 +123,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 14,
-    borderRadius: 30,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    elevation: 8,
+    borderRadius: Radius.pill,
+    ...Shadows.elevated,
   },
   donasiText: {
     color: '#fff',

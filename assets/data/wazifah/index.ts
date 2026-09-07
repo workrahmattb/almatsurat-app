@@ -9,6 +9,8 @@ export interface WazifahSection {
   translation: string;
   repetition: number;
   source: string;
+  header_bismillah?: boolean; // Tampilkan Bismillah di header card (hanya untuk beberapa section tertentu)
+  ayatPairs?: { ayat: number; arabic: string; translation: string }[]; // Per-ayat pairs (opsional, untuk surat Al-Quran)
 }
 
 export interface Wazifah {

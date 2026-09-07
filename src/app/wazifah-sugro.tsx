@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   View,
+  type ViewToken,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -14,7 +15,7 @@ import {
   getAyatPairs,
   type AyatPair,
 } from "@/assets/data/wazifah/perayat-adapter";
-import { Colors, Spacing } from "@/constants/theme";
+import { Colors, Radius, Shadows, Spacing, type ThemePalette } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useProgressStore, useSettingsStore } from "@/stores";
 import { useLocalSearchParams } from "expo-router";
@@ -33,16 +34,7 @@ export default function WazifahSugroScreen() {
 
   const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 50 }).current;
   const onViewableItemsChanged = useCallback(
-    ({
-      viewableItems,
-    }: {
-      viewableItems: {
-        item: WazifahSection;
-        key: string;
-        index: number;
-        isVisible: boolean;
-      }[];
-    }) => {
+    ({ viewableItems }: { viewableItems: ViewToken<WazifahSection>[] }) => {
       if (viewableItems.length > 0 && wazifah && viewableItems[0].item) {
         const visible = viewableItems[viewableItems.length - 1].item;
         console.log(
@@ -172,7 +164,7 @@ function SectionCard({
 }: {
   section: WazifahSection;
   index: number;
-  colors: typeof Colors.dark;
+  colors: ThemePalette;
   arabicFontSize: number;
   translationFontSize: number;
   accentColor: string;
@@ -189,21 +181,21 @@ function SectionCard({
           backgroundColor: colors.backgroundElement,
           borderColor: colors.glassBorder,
           borderWidth: 1,
-          borderRadius: 16,
+          borderRadius: Radius.lg,
           marginHorizontal: Spacing.two,
+          ...Shadows.card,
         },
       ]}
     >
       {/* Card Header: Judul + Info (center) */}
-      <View
-        style={[
-          styles.cardHeader,
-          {
-            backgroundColor: accentColor,
-            borderTopLeftRadius: isFirst ? 15 : 11,
-            borderTopRightRadius: isFirst ? 15 : 11,
-          },
-        ]}
+      <View          style={[
+            styles.cardHeader,
+            {
+              backgroundColor: accentColor,
+              borderTopLeftRadius: isFirst ? Radius.lg - 1 : Radius.md,
+              borderTopRightRadius: isFirst ? Radius.lg - 1 : Radius.md,
+            },
+          ]}
       >
         <Text style={styles.cardTitle}>{section.title}</Text>
         <View style={styles.cardMetaRow}>
@@ -224,7 +216,7 @@ function SectionCard({
             styles.bismillahText,
             {
               fontSize: arabicFontSize * 1,
-              color: '#000000',
+              color: colors.text,
               textAlign: "right",
               marginHorizontal: Spacing.three,
               marginTop: Spacing.one,
@@ -241,9 +233,14 @@ function SectionCard({
           ayatPairs.map((ayat: AyatPair, i: number) => (
             <View key={i} style={styles.ayatItem}>
               <View style={styles.ayatHeader}>
-                <Text style={[styles.ayatNumber, { color: colors.accent }]}>
-                  Ayat {ayat.ayat}
-                </Text>
+                <Text
+                style={[
+                  styles.ayatNumber,
+                  { color: colors.accent, backgroundColor: colors.accent3 },
+                ]}
+              >
+                Ayat {ayat.ayat}
+              </Text>
               </View>
               <Text
                 style={[
@@ -311,6 +308,9 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.four + 20,
     paddingBottom: Spacing.three,
     alignItems: "center",
+    borderBottomLeftRadius: Radius.xl,
+    borderBottomRightRadius: Radius.xl,
+    ...Shadows.soft,
   },
   headerTitle: {
     fontSize: 28,
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   card: {
-    overflow: "hidden",
+    borderRadius: Radius.lg,
   },
   cardHeader: {
     alignItems: "center",
@@ -365,10 +365,14 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   ayatNumber: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: "800",
     textTransform: "uppercase",
     letterSpacing: 0.5,
+    paddingVertical: 3,
+    paddingHorizontal: 10,
+    borderRadius: Radius.pill,
+    overflow: "hidden",
   },
   arabicText: {
     textAlign: "right",
