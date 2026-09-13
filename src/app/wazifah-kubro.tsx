@@ -15,7 +15,13 @@ import {
   getAyatPairs,
   type AyatPair,
 } from "@/assets/data/wazifah/perayat-adapter";
-import { Colors, Radius, Shadows, Spacing, type ThemePalette } from "@/constants/theme";
+import {
+  Colors,
+  Radius,
+  Shadows,
+  Spacing,
+  type ThemePalette,
+} from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useProgressStore, useSettingsStore } from "@/stores";
 import { useLocalSearchParams } from "expo-router";
@@ -187,14 +193,15 @@ function SectionCard({
       ]}
     >
       {/* Card Header: Judul + Info (center) */}
-      <View          style={[
-            styles.cardHeader,
-            {
-              backgroundColor: accentColor,
-              borderTopLeftRadius: isFirst ? Radius.lg - 1 : Radius.md,
-              borderTopRightRadius: isFirst ? Radius.lg - 1 : Radius.md,
-            },
-          ]}
+      <View
+        style={[
+          styles.cardHeader,
+          {
+            backgroundColor: accentColor,
+            borderTopLeftRadius: isFirst ? Radius.lg - 1 : Radius.md,
+            borderTopRightRadius: isFirst ? Radius.lg - 1 : Radius.md,
+          },
+        ]}
       >
         <Text style={styles.cardTitle}>{section.title}</Text>
         <View style={styles.cardMetaRow}>
@@ -233,13 +240,13 @@ function SectionCard({
             <View key={i} style={styles.ayatItem}>
               <View style={styles.ayatHeader}>
                 <Text
-                style={[
-                  styles.ayatNumber,
-                  { color: colors.accent, backgroundColor: colors.accent3 },
-                ]}
-              >
-                Ayat {ayat.ayat}
-              </Text>
+                  style={[
+                    styles.ayatNumber,
+                    { color: colors.accent, backgroundColor: colors.accent3 },
+                  ]}
+                >
+                  Ayat {ayat.ayat}
+                </Text>
               </View>
               <Text
                 style={[
@@ -260,6 +267,7 @@ function SectionCard({
                     color: colors.textSecondary,
                     fontSize: translationFontSize,
                     lineHeight: translationFontSize * 1.7,
+                    textAlign: "justify",
                   },
                 ]}
               >
@@ -339,7 +347,11 @@ const styles = StyleSheet.create({
     marginBottom: 3,
     textAlign: "center",
   },
-  cardMetaRow: { flexDirection: "row", alignItems: "center", justifyContent: "center" },
+  cardMetaRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   cardSource: {
     fontSize: 11,
     color: "rgba(255,255,255,0.75)",
