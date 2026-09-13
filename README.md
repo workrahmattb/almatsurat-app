@@ -3,7 +3,7 @@
 Aplikasi mobile offline-first untuk membaca **Al-Quran** (teks Arab + terjemahan Indonesia) dan **Kitab-kitab Islam** klasik, dibangun dengan **React Native + Expo** dengan desain **Futuristic Glassmorphism** yang elegan dan responsif.
 
 ![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS%20%7C%20Web-blue)
-![Expo SDK](https://img.shields.io/badge/Expo%20SDK-54-black)
+![Expo SDK](https://img.shields.io/badge/Expo%20SDK-57-black)
 ![React Native](https://img.shields.io/badge/React%20Native-0.81-61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -17,6 +17,7 @@ Jika aplikasi ini bermanfaat, kamu bisa mendukung pengembangannya melalui donasi
 👉 **[Donasi via Saweria](https://saweria.co/rahmattb)**
 
 Setiap kontribusi akan digunakan untuk:
+
 - Menambah data Al-Quran lengkap (114 surah)
 - Menambah koleksi kitab Islam klasik
 - Pengembangan fitur audio murottal dan tafsir
@@ -28,27 +29,27 @@ Terima kasih atas dukungannya! 🌙
 
 ## ✨ Fitur Utama
 
-| Fitur | Deskripsi |
-|-------|-----------|
-| 📖 **Al-Quran Lengkap** | 114 Surah dengan teks Arab (Uthmanic Hafs), terjemahan Bahasa Indonesia, dan penomoran ayat |
-| 📚 **Koleksi Kitab Islam** | Kitab klasik terstruktur per bab (Bulughul Maram, Riyadhus Shalihin, dll) |
-| 🔖 **Bookmark Cerdas** | Tandai ayat atau bab — tersimpan otomatis dengan timestamp |
-| 📍 **Reading Progress** | Lanjutkan membaca dari posisi terakhir (surah/kitab/bab) |
-| ✈️ **100% Offline** | Semua konten bundled — tidak perlu koneksi internet |
-| 🎨 **Tema Adaptif** | Light / Dark / System — transisi mulus |
-| 🔤 **Font Fleksibel** | Ukuran font Arab (20–40px) & Terjemahan (12–22px) independen |
-| ✨ **Futuristic Glassmorphism UI** | Deep dark gradient + neon accents + glass cards + soft glows |
+| Fitur                              | Deskripsi                                                                                   |
+| ---------------------------------- | ------------------------------------------------------------------------------------------- |
+| 📖 **Al-Quran Lengkap**            | 114 Surah dengan teks Arab (Uthmanic Hafs), terjemahan Bahasa Indonesia, dan penomoran ayat |
+| 📚 **Koleksi Kitab Islam**         | Kitab klasik terstruktur per bab (Bulughul Maram, Riyadhus Shalihin, dll)                   |
+| 🔖 **Bookmark Cerdas**             | Tandai ayat atau bab — tersimpan otomatis dengan timestamp                                  |
+| 📍 **Reading Progress**            | Lanjutkan membaca dari posisi terakhir (surah/kitab/bab)                                    |
+| ✈️ **100% Offline**                | Semua konten bundled — tidak perlu koneksi internet                                         |
+| 🎨 **Tema Adaptif**                | Light / Dark / System — transisi mulus                                                      |
+| 🔤 **Font Fleksibel**              | Ukuran font Arab (20–40px) & Terjemahan (12–22px) independen                                |
+| ✨ **Futuristic Glassmorphism UI** | Deep dark gradient + neon accents + glass cards + soft glows                                |
 
 ---
 
 ## 🎨 Preview UI
 
-> **Tema:** Glassmorphism dengan palet *deep dark gradient* (`#06080F` base) + neon accents (ungu `#9333EA`, cyan `#0EA5E9`, amber `#F59E0B`).  
+> **Tema:** Glassmorphism dengan palet _deep dark gradient_ (`#06080F` base) + neon accents (ungu `#9333EA`, cyan `#0EA5E9`, amber `#F59E0B`).  
 > **Kartu:** Translucent glass (`rgba(255,255,255,0.05)`), border glow (`rgba(255,255,255,0.1)`), shadow elevation 6.  
 > **Font Arab:** **KFGQPC Uthmanic HAFS** (standar Mushaf Madinah) — tidak diubah.
 
-| Home | Wazifah Reader | Settings |
-|:---:|:---:|:---:|
+|                     Home                     |            Wazifah Reader             |                Settings                 |
+| :------------------------------------------: | :-----------------------------------: | :-------------------------------------: |
 | Hero banner + floating cards + glowing stats | Gradient header + glass section cards | Pill-style toggles dengan accent border |
 
 ---
@@ -56,6 +57,7 @@ Terima kasih atas dukungannya! 🌙
 ## 🚀 Quick Start
 
 ### Prasyarat
+
 - Node.js ≥ 18
 - Expo CLI (`npm i -g expo-cli`)
 - Android Studio / Xcode (untuk emulator) **atau** device fisik dengan **Expo Go**
@@ -77,7 +79,7 @@ npm start          # atau: npx expo start
 #    Atau tekan 'a' untuk Android emulator, 'i' untuk iOS simulator, 'w' untuk web
 ```
 
-> ⚠️ **Catatan SDK**: Project ini menggunakan **Expo SDK 54** agar kompatibel dengan **Expo Go** versi stabil. Jika mau SDK 57+, gunakan *Development Build* (EAS Build).
+> ⚠️ **Catatan SDK**: Project ini menggunakan **Expo SDK 57** agar kompatibel dengan **Expo Go** versi stabil. Jika mau SDK 57+, gunakan _Development Build_ (EAS Build).
 
 ---
 
@@ -195,21 +197,22 @@ al-matsurat/
 
 ## 🔧 Tech Stack
 
-| Layer | Teknologi |
-|-------|-----------|
-| **Framework** | React Native 0.81 + Expo SDK 54 |
-| **Routing** | Expo Router v6 (file-based, typed routes) |
-| **State** | Zustand v5 + AsyncStorage persistence |
-| **Styling** | StyleSheet API (native, zero-runtime) |
-| **Fonts** | `expo-font` — KFGQPC Uthmanic HAFS (Arab) |
-| **Language** | TypeScript 5 (strict mode) |
-| **Build** | EAS Build (production) |
+| Layer         | Teknologi                                 |
+| ------------- | ----------------------------------------- |
+| **Framework** | React Native 0.81 + Expo SDK 57           |
+| **Routing**   | Expo Router v6 (file-based, typed routes) |
+| **State**     | Zustand v5 + AsyncStorage persistence     |
+| **Styling**   | StyleSheet API (native, zero-runtime)     |
+| **Fonts**     | `expo-font` — KFGQPC Uthmanic HAFS (Arab) |
+| **Language**  | TypeScript 5 (strict mode)                |
+| **Build**     | EAS Build (production)                    |
 
 ---
 
 ## 📝 State Management (Zustand)
 
 ### `useBookmarkStore`
+
 ```ts
 bookmarks: Bookmark[]
 addBookmark(b: Bookmark)
@@ -219,6 +222,7 @@ getBookmarkId(...): string | null
 ```
 
 ### `useProgressStore`
+
 ```ts
 progress: ReadingProgress[]
 updateProgress(p: ReadingProgress)
@@ -227,6 +231,7 @@ getLatestProgress(): ReadingProgress | null
 ```
 
 ### `useSettingsStore`
+
 ```ts
 arabicFontSize: number      // 20–40 (default: 28)
 translationFontSize: number // 12–22 (default: 16)
@@ -241,20 +246,24 @@ setThemeMode(mode: ThemeMode)
 ## 🎯 Roadmap
 
 ### v1.1 — Data Completion
+
 - [ ] Lengkapi 114 surah Al-Quran (saat ini 5 surah sample)
 - [ ] Tambah 8–10 kitab klasik (Bulughul Maram, Riyadhus Shalihin, Arbain Nawawi, dll)
 
 ### v1.2 — Search & Discovery
+
 - [ ] Full-text search ayat (Arab/Latin/Translation)
 - [ ] Full-text search isi kitab
 - [ ] Filter surah: Mekah/Madinah, juz, halaman
 
 ### v1.3 — Media & Sharing
+
 - [ ] Audio murottal per ayat (offline bundle / streaming)
 - [ ] Share card ayat ke media sosial (generate image)
 - [ ] Tafsir ringkas per ayat (opsional)
 
 ### v1.4 — Polish & Publish
+
 - [ ] App icon & splash screen custom
 - [ ] Store screenshots & metadata
 - [ ] Privacy Policy (offline-first, no analytics)
@@ -290,6 +299,7 @@ eas submit --platform ios
 ## 🤝 Contributing
 
 Kontribusi terbuka untuk:
+
 - **Data**: Tambah surah/kitab/wazifah (PR ke `assets/data/`)
 - **UI/UX**: Perbaikan aksesibilitas, animasi, performa
 - **Fitur**: Search, audio, tafsir, dsb.
@@ -349,4 +359,4 @@ SOFTWARE.
 ---
 
 > **Dibangun dengan ❤️, ☕, dan banyak doa** — semoga bermanfaat untuk umat.  
-> **Bismillahirrahmanirrahim** · **Al-Ma'tsurat** · *Futuristic. Solid. Offline.*
+> **Bismillahirrahmanirrahim** · **Al-Ma'tsurat** · _Futuristic. Solid. Offline._
