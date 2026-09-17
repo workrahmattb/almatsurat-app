@@ -4,6 +4,7 @@
 node_modules/
 
 # Claude Code
+.claude/
 .claude/settings.local.json
 .claude/settings.json
 
@@ -45,3 +46,5 @@ example
 # generated native folders
 /ios
 /android
+.claude/
+.claude/
