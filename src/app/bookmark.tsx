@@ -1,8 +1,9 @@
 import { useRouter } from 'expo-router';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 
-import { Colors, Radius, Shadows, Spacing } from '@/constants/theme';
+import { Colors, Radius, Shadows, Spacing, Typography } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useBookmarkStore } from '@/stores';
 import type { Bookmark } from '@/types';
@@ -20,14 +21,19 @@ export default function BookmarkScreen() {
 
     return (
       <TouchableOpacity
-        style={[styles.bookmarkCard, { backgroundColor: colors.backgroundElement, borderColor: colors.glassBorder, borderWidth: 1 }]}
+        style={[styles.bookmarkCard, { backgroundColor: colors.backgroundElement }]}
         onPress={() => {
           if (isAyat && item.surah_id) router.push(`/surah/${item.surah_id}`);
           else if (!isAyat && item.kitab_id) router.push(`/kitab/${item.kitab_id}`);
         }}
+        activeOpacity={0.7}
       >
-        <View style={[styles.bookmarkIcon, { backgroundColor: colors.accent }]}>
-          <Text style={styles.bookmarkEmoji}>{isAyat ? '📖' : '📚'}</Text>
+        <View style={[styles.bookmarkIcon, { backgroundColor: isAyat ? colors.accentLight : colors.accentSecondaryLight }]}>
+          <Ionicons
+            name={isAyat ? 'book' : 'library'}
+            size={22}
+            color={isAyat ? colors.accent : colors.accentSecondary}
+          />
         </View>
         <View style={styles.bookmarkInfo}>
           <Text style={[styles.bookmarkTitle, { color: colors.text }]}>
@@ -36,10 +42,11 @@ export default function BookmarkScreen() {
           <Text style={[styles.bookmarkSubtitle, { color: colors.textSecondary }]}>
             {isAyat ? `Ayat ${item.ayat_number}` : `Bab ${item.chapter_number}: ${item.chapter_title}`}
           </Text>
-          <Text style={[styles.bookmarkDate, { color: colors.textSecondary }]}>
+          <Text style={[styles.bookmarkDate, { color: colors.textTertiary }]}>
             {new Date(item.created_at).toLocaleDateString('id-ID')}
           </Text>
         </View>
+        <Ionicons name="chevron-forward" size={18} color={colors.textTertiary} />
       </TouchableOpacity>
     );
   };
@@ -47,13 +54,17 @@ export default function BookmarkScreen() {
   if (bookmarks.length === 0) {
     return (
       <View style={[styles.container, { backgroundColor: colors.background }]}>
-        <View style={styles.header}>
-          <Text style={[styles.headerTitle, { color: colors.text }]}>❤️ Favorit</Text>
+        <View style={[styles.header, { paddingTop: insets.top + Spacing.four }]}>
+          <Text style={[styles.headerTitle, { color: colors.text }]}>Favorit</Text>
         </View>
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyEmoji}>📌</Text>
-          <Text style={[styles.emptyText, { color: colors.textSecondary }]}>Belum ada bookmark</Text>
-          <Text style={[styles.emptySubtext, { color: colors.textSecondary }]}>Tap icon bookmark pada ayat atau bab untuk menandainya</Text>
+          <View style={[styles.emptyIconContainer, { backgroundColor: colors.backgroundSelected }]}>
+            <Ionicons name="heart-outline" size={48} color={colors.textTertiary} />
+          </View>
+          <Text style={[styles.emptyText, { color: colors.text }]}>Belum ada bookmark</Text>
+          <Text style={[styles.emptySubtext, { color: colors.textSecondary }]}>
+            Tap icon bookmark pada ayat atau bab untuk menandainya
+          </Text>
         </View>
       </View>
     );
@@ -61,8 +72,8 @@ export default function BookmarkScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={styles.header}>
-        <Text style={[styles.headerTitle, { color: colors.text }]}>❤️ Favorit</Text>
+      <View style={[styles.header, { paddingTop: insets.top + Spacing.four }]}>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>Favorit</Text>
         <Text style={[styles.headerSubtitle, { color: colors.textSecondary }]}>{bookmarks.length} bookmark</Text>
       </View>
       <FlatList
@@ -78,18 +89,47 @@ export default function BookmarkScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  header: { paddingHorizontal: Spacing.four, paddingTop: Spacing.four + 20, paddingBottom: Spacing.three },
-  headerTitle: { fontSize: 28, fontWeight: '700' },
-  headerSubtitle: { fontSize: 14, marginTop: 2 },
-  emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: Spacing.four },
-  emptyEmoji: { fontSize: 64, marginBottom: Spacing.three },
-  emptyText: { fontSize: 18, fontWeight: '600', marginBottom: Spacing.one },
-  emptySubtext: { fontSize: 14, textAlign: 'center', lineHeight: 20 },
-  bookmarkCard: { flexDirection: 'row', alignItems: 'center', marginHorizontal: Spacing.three, marginBottom: Spacing.one, padding: Spacing.three, borderRadius: Radius.lg, ...Shadows.card },
-  bookmarkIcon: { width: 48, height: 48, borderRadius: Radius.md, justifyContent: 'center', alignItems: 'center', marginRight: Spacing.three, ...Shadows.soft },
-  bookmarkEmoji: { fontSize: 24 },
+  header: {
+    paddingHorizontal: Spacing.five,
+    paddingBottom: Spacing.four,
+  },
+  headerTitle: { ...Typography.largeTitle },
+  headerSubtitle: { ...Typography.subhead, marginTop: Spacing.one },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: Spacing.five,
+  },
+  emptyIconContainer: {
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: Spacing.five,
+  },
+  emptyText: { ...Typography.headline, marginBottom: Spacing.two },
+  emptySubtext: { ...Typography.subhead, textAlign: 'center', lineHeight: 20 },
+  bookmarkCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: Spacing.four,
+    marginBottom: Spacing.two,
+    padding: Spacing.four,
+    borderRadius: Radius.lg,
+    ...Shadows.card,
+  },
+  bookmarkIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: Radius.md,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: Spacing.four,
+  },
   bookmarkInfo: { flex: 1 },
-  bookmarkTitle: { fontSize: 16, fontWeight: '700' },
-  bookmarkSubtitle: { fontSize: 14, marginTop: 2 },
-  bookmarkDate: { fontSize: 11, marginTop: 4 },
+  bookmarkTitle: { ...Typography.headline },
+  bookmarkSubtitle: { ...Typography.subhead, marginTop: Spacing.half },
+  bookmarkDate: { ...Typography.caption1, marginTop: Spacing.one },
 });

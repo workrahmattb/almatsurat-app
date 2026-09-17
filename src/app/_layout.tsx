@@ -3,15 +3,14 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
-
-import { useSettingsStore } from '@/stores';
 import { Colors } from '@/constants/theme';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const systemColorScheme = useColorScheme();
-  const themeMode = useSettingsStore((s) => s.themeMode);
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+  const colors = Colors[isDark ? 'dark' : 'light'];
 
   const [fontsLoaded] = useFonts({
     'KFGQPC-Uthmanic-HAFS': require('../../assets/fonts/KFGQPC-Uthmanic-HAFS.otf'),
@@ -23,10 +22,9 @@ export default function RootLayout() {
     }
   }, [fontsLoaded]);
 
-  const resolvedScheme = themeMode === 'system' ? systemColorScheme : themeMode;
-  const isDark = resolvedScheme === 'dark';
-
-  const colors = Colors[isDark ? 'dark' : 'light'];
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <Stack

@@ -2,9 +2,10 @@ import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, type ListRenderItemInfo } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 
 import { getSurahById } from '@/assets/data';
-import { Colors, Radius, Shadows, Spacing, type ThemePalette } from '@/constants/theme';
+import { Colors, Radius, Shadows, Spacing, Typography, type ThemePalette } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useBookmarkStore, useProgressStore, useSettingsStore } from '@/stores';
 import type { Ayat, Surah } from '@/types';
@@ -36,7 +37,7 @@ export default function SurahReaderScreen() {
   if (!surah) {
     return (
       <View style={[styles.container, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }]}>
-        <Text style={{ color: colors.text, fontSize: 18 }}>Surah tidak ditemukan</Text>
+        <Text style={{ color: colors.text, fontSize: 17 }}>Surah tidak ditemukan</Text>
       </View>
     );
   }
@@ -58,12 +59,18 @@ export default function SurahReaderScreen() {
       keyExtractor={(item) => String(item.number)}
       renderItem={renderAyat}
       ListHeaderComponent={
-        <View style={[styles.header, { backgroundColor: colors.primary }]}>
-          <Text style={styles.headerArabic}>{surah.name_arabic}</Text>
-          <Text style={styles.headerLatin}>{surah.name_latin}</Text>
-          <Text style={styles.headerMeta}>
-            {surah.translation_id} • {surah.total_ayat} ayat
-          </Text>
+        <View style={[styles.header, { paddingTop: insets.top + Spacing.four }]}>
+          <Text style={[styles.headerArabic, { color: colors.text }]}>{surah.name_arabic}</Text>
+          <Text style={[styles.headerLatin, { color: colors.text }]}>{surah.name_latin}</Text>
+          <View style={styles.headerMetaContainer}>
+            <Text style={[styles.headerMeta, { color: colors.textSecondary }]}>
+              {surah.translation_id}
+            </Text>
+            <View style={[styles.metaDot, { backgroundColor: colors.separator }]} />
+            <Text style={[styles.headerMeta, { color: colors.textSecondary }]}>
+              {surah.total_ayat} ayat
+            </Text>
+          </View>
         </View>
       }
       contentContainerStyle={{ paddingBottom: insets.bottom + 40 }}
@@ -105,18 +112,17 @@ function AyatRow({
   };
 
   return (
-    <View
-      style={[
-        styles.ayatCard,
-        { backgroundColor: colors.backgroundElement, borderColor: colors.glassBorder, borderWidth: 1 },
-      ]}
-    >
+    <View style={[styles.ayatCard, { backgroundColor: colors.backgroundElement }]}>
       <View style={styles.ayatHeader}>
-        <View style={[styles.ayatNumberBadge, { backgroundColor: colors.accent3 }]}>
+        <View style={[styles.ayatNumberBadge, { backgroundColor: colors.accentLight }]}>
           <Text style={[styles.ayatNumberText, { color: colors.accent }]}>{ayat.number}</Text>
         </View>
         <TouchableOpacity onPress={handleBookmark} hitSlop={8} style={styles.bookmarkBtn}>
-          <Text style={styles.bookmarkIcon}>{isBookmarked ? '❤️' : '🤍'}</Text>
+          <Ionicons
+            name={isBookmarked ? 'heart' : 'heart-outline'}
+            size={22}
+            color={isBookmarked ? colors.bookmark : colors.textTertiary}
+          />
         </TouchableOpacity>
       </View>
 
@@ -147,16 +153,53 @@ function AyatRow({
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  header: { alignItems: 'center', paddingHorizontal: Spacing.four, paddingVertical: Spacing.four, marginBottom: Spacing.two, borderBottomLeftRadius: Radius.xl, borderBottomRightRadius: Radius.xl, ...Shadows.soft },
-  headerArabic: { color: '#fff', fontFamily: 'KFGQPC-Uthmanic-HAFS', fontSize: 38, textAlign: 'center', marginBottom: Spacing.two },
-  headerLatin: { color: '#fff', fontSize: 22, fontWeight: '800', textAlign: 'center' },
-  headerMeta: { color: 'rgba(255,255,255,0.8)', fontSize: 13, marginTop: 4, textAlign: 'center' },
-  ayatCard: { marginHorizontal: Spacing.three, marginBottom: Spacing.two, padding: Spacing.three, borderRadius: Radius.lg, ...Shadows.card },
-  ayatHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: Spacing.two },
-  ayatNumberBadge: { minWidth: 28, height: 28, borderRadius: 14, justifyContent: 'center', alignItems: 'center', paddingHorizontal: Spacing.one },
-  ayatNumberText: { fontSize: 13, fontWeight: '800' },
-  bookmarkBtn: { padding: 4 },
-  bookmarkIcon: { fontSize: 18 },
-  arabicText: { textAlign: 'right', fontFamily: 'KFGQPC-Uthmanic-HAFS', fontWeight: '600', marginBottom: Spacing.one },
-  translationText: { fontWeight: '500' },
+  header: {
+    alignItems: 'center',
+    paddingHorizontal: Spacing.five,
+    paddingBottom: Spacing.five,
+    marginBottom: Spacing.three,
+  },
+  headerArabic: {
+    fontFamily: 'KFGQPC-Uthmanic-HAFS',
+    fontSize: 40,
+    textAlign: 'center',
+    marginBottom: Spacing.three,
+  },
+  headerLatin: { ...Typography.title1, textAlign: 'center' },
+  headerMetaContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: Spacing.two,
+    gap: Spacing.two,
+  },
+  headerMeta: { ...Typography.subhead },
+  metaDot: { width: 4, height: 4, borderRadius: 2 },
+  ayatCard: {
+    marginHorizontal: Spacing.four,
+    marginBottom: Spacing.three,
+    padding: Spacing.four,
+    borderRadius: Radius.lg,
+    ...Shadows.card,
+  },
+  ayatHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: Spacing.three,
+  },
+  ayatNumberBadge: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ayatNumberText: { ...Typography.subhead, fontWeight: '700' },
+  bookmarkBtn: { padding: Spacing.one },
+  arabicText: {
+    textAlign: 'right',
+    fontFamily: 'KFGQPC-Uthmanic-HAFS',
+    marginBottom: Spacing.three,
+  },
+  translationText: { ...Typography.subhead },
 });

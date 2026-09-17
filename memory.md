@@ -4,10 +4,10 @@ Catatan konteks & riwayat pekerjaan. Update file ini setiap ada pekerjaan besar 
 
 ## Ringkasan Project
 
-- **Stack:** React Native 0.86 + Expo SDK 57, Expo Router v6 (file-based routing), Zustand + AsyncStorage (offline-first), TypeScript strict.
+- **Stack:** React Native 0.86 + Expo SDK 57, Expo Router v6 (file-based routing), Zustand + AsyncStorage (offline-first), TypeScript strict, `@expo/vector-icons` (Ionicons).
 - **Konten:** semua data bundled sebagai JSON di `assets/data/` (Quran, Kitab, Wazifah).
 - **Alur utama:**
-  1. **Home** (`src/app/index.tsx`) → header, card "Lanjutkan Membaca", menu Wazifah Sugro & Kubro (kiri-kanan), tombol donasi Saweria.
+  1. **Home** (`src/app/index.tsx`) → header + tombol Settings (kanan atas), card "Lanjutkan Membaca", menu Wazifah Sugro & Kubro (kiri-kanan), navigasi Kitab & Favorit.
   2. **Wazifah** (`wazifah-sugro.tsx`, `wazifah-kubro.tsx`) → horizontal swipe per section (FlatList paging), konten per-ayat via `perayat-adapter.ts`, progress tersimpan otomatis.
   3. **Kitab** (`kitab/[id]/[chapter].tsx`) → baca isi bab, bookmark bab, prev/next, progress otomatis. Daftar bab di `kitab/[id].tsx`.
   4. **Surah** (`surah/[id].tsx`) → baca ayat + terjemahan, bookmark per ayat, progress otomatis.
@@ -40,11 +40,40 @@ Catatan konteks & riwayat pekerjaan. Update file ini setiap ada pekerjaan besar 
 - Menu Wazifah Sugro & Kubro: dari atas-bawah → **kiri-kanan** (`flexDirection: 'row'` + kartu `flex: 1`).
 - Background light mode: `#f6faf7` → **`#eef1f4`** (abu-abu muda) supaya shadow kartu terlihat. Berlaku konsisten di semua screen karena semuanya pakai `colors.background`.
 
+### 6. Redesign Total UI berdasarkan Apple HIG
+- **Review menggunakan Apple Design Skill** (`.agents/skills/apple-design/`): audit 5 lens (accessibility, platform conventions, visual design, interaction, content).
+- **Temuan kritis:** tidak ada tab bar (seharusnya ada), emoji icons (bukan vector), hardcoded colors di dark mode.
+- **Keputusan desain:** "Digital Mushaf" — warm cream backgrounds, deep emerald accents, elegant Islamic aesthetic.
+
+#### Token System Baru (`src/constants/theme.ts`):
+- **Warna:** Light cream `#FAFAF5`, dark `#1C1C1E`, accent emerald `#0A7B4F`/`#34C759`, secondary gold `#C9A96E`/`#D4A84B`.
+- **Typography:** Scale Apple HIG (Large Title 34pt → Caption 11pt), font `KFGQPC-Uthmanic-HAFS` tetap untuk Arabic.
+- **Spacing:** Scale konsisten (half 2 → twelve 48).
+- **Radius:** Lebih kecil (sm 8, md 12, lg 16, xl 20, pill 999).
+
+#### Perubahan Struktur:
+- **Bottom navbar dihapus** — navigasi via kartu di home screen.
+- **Tombol Settings** dipindah ke pojok kanan atas home screen (icon gear Ionicons).
+- **Stack navigator** seperti semula (bukan Tabs).
+- **Wazifah screens** kembali ke root level (`wazifah-sugro.tsx`, `wazifah-kubro.tsx`).
+
+#### Icons:
+- Semua emoji diganti `@expo/vector-icons` (Ionicons): home, book, library, heart, settings, chevron-forward, dll.
+- Package `@expo/vector-icons` diinstall via `npx expo install`.
+
+#### Screens Updated:
+- **Home:** Tombol Settings kanan atas, "Continue Reading" card dengan icon, menu Wazifah (Sugro/Kubro), navigasi Kitab & Favorit.
+- **Wazifah:** Header cream, card header emerald/gold, ayat number badge, Bismillah divider dengan gold accent.
+- **Surah:** Header nama Arab sebagai hero, ayat cards dengan bookmark heart icon.
+- **Kitab:** Chapter list dengan chevron-forward icons, chapter reader dengan prev/next buttons.
+- **Bookmark:** Empty state dengan heart-outline icon, list items dengan book/library icons.
+- **Settings:** Grouped sections dengan icons, font size selectors.
+
 ## Status Sekarang
 
 - `npx tsc --noEmit` → **exit 0** (nol error).
-- Dev server (`npx expo start`) boot normal, web bundle ter-compile bersih (sudah diverifikasi).
-- UI modern: shadow lembut + rounded, kartu putih di atas background abu-abu muda.
+- UI redesign selesai: warm cream + emerald, vector icons, no bottom navbar.
+- Font Arabic `KFGQPC-Uthmanic-HAFS` tetap dipertahankan.
 
 ## Catatan / Isu Terbuka
 

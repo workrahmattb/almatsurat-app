@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from 'react';
 import {
   Dimensions,
   FlatList,
@@ -7,49 +7,39 @@ import {
   Text,
   View,
   type ViewToken,
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+} from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 
-import { getWazifahById, type WazifahSection } from "@/assets/data/wazifah";
-import {
-  getAyatPairs,
-  type AyatPair,
-} from "@/assets/data/wazifah/perayat-adapter";
-import {
-  Colors,
-  Radius,
-  Shadows,
-  Spacing,
-  type ThemePalette,
-} from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
-import { useProgressStore, useSettingsStore } from "@/stores";
-import { useLocalSearchParams } from "expo-router";
+import { getWazifahById, type WazifahSection } from '@/assets/data/wazifah';
+import { getAyatPairs, type AyatPair } from '@/assets/data/wazifah/perayat-adapter';
+import { Colors, Radius, Shadows, Spacing, Typography, type ThemePalette } from '@/constants/theme';
+import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useProgressStore, useSettingsStore } from '@/stores';
+import { useLocalSearchParams } from 'expo-router';
 
 export default function WazifahKubroScreen() {
   const insets = useSafeAreaInsets();
   const colorScheme = useColorScheme();
-  const isDark = colorScheme === "dark";
-  const colors = Colors[isDark ? "dark" : "light"];
+  const isDark = colorScheme === 'dark';
+  const colors = Colors[isDark ? 'dark' : 'light'];
 
   const { arabicFontSize, translationFontSize } = useSettingsStore();
   const updateProgress = useProgressStore((s) => s.updateProgress);
 
-  const wazifah = getWazifahById("kubro");
+  const wazifah = getWazifahById('kubro');
   const params = useLocalSearchParams();
   const flatListRef = useRef<FlatList>(null);
 
   const getItemLayout = useCallback((data: any, index: number) => {
-    const cardWidth = Dimensions.get("window").width;
+    const cardWidth = Dimensions.get('window').width;
     return { length: cardWidth, offset: cardWidth * index, index };
   }, []);
 
   useEffect(() => {
     if (wazifah && params.scrollToSection) {
       const target = Number(params.scrollToSection);
-      const index = wazifah.sections.findIndex(
-        (s) => s.section_number === target,
-      );
+      const index = wazifah.sections.findIndex((s) => s.section_number === target);
       if (index >= 0 && flatListRef.current) {
         setTimeout(() => {
           flatListRef.current?.scrollToIndex({
@@ -61,22 +51,17 @@ export default function WazifahKubroScreen() {
       }
     }
   }, [wazifah, params.scrollToSection]);
+
   const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 50 }).current;
   const onViewableItemsChanged = useCallback(
     ({ viewableItems }: { viewableItems: ViewToken<WazifahSection>[] }) => {
       if (viewableItems.length > 0 && wazifah && viewableItems[0].item) {
         const visible = viewableItems[viewableItems.length - 1].item;
-        console.log(
-          "KUBRO VISIBLE -> section:",
-          visible.section_number,
-          "| title:",
-          visible.title,
-        );
         updateProgress({
-          type: "wazifah",
+          type: 'wazifah',
           reference_id: wazifah.id,
           title: wazifah.title,
-          wazifah_type: "kubro",
+          wazifah_type: 'kubro',
           section_number: visible.section_number,
           section_title: visible.title,
         });
@@ -85,68 +70,48 @@ export default function WazifahKubroScreen() {
     [wazifah, updateProgress],
   );
 
-  // Jangan panggil updateProgress kosong di awal — biar data scroll tersimpan
-  // useEffect(() => {
-  //   if (wazifah) updateProgress({ type: 'wazifah', reference_id: wazifah.id, title: wazifah.title, wazifah_type: 'kubro' });
-  // }, [wazifah, updateProgress]);
-
   if (!wazifah) {
     return (
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: colors.background,
-            justifyContent: "center",
-            alignItems: "center",
-          },
-        ]}
-      >
-        <Text style={{ color: colors.text, fontSize: 18 }}>
-          Wazifah tidak ditemukan
-        </Text>
+      <View style={[styles.container, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }]}>
+        <Text style={{ color: colors.text, fontSize: 17 }}>Wazifah tidak ditemukan</Text>
       </View>
     );
   }
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      {/* Header Banner */}
-      <View style={[styles.header, { backgroundColor: colors.accent }]}>
-        <Text style={styles.headerTitle}>{wazifah.title}</Text>
-        <Text style={styles.headerDesc}>{wazifah.description}</Text>
+      <View style={[styles.header, { paddingTop: insets.top + Spacing.four }]}>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>{wazifah.title}</Text>
+        <Text style={[styles.headerDesc, { color: colors.textSecondary }]}>{wazifah.description}</Text>
       </View>
 
       <FlatList
         ref={flatListRef}
         data={wazifah.sections}
-        horizontal={true}
-        pagingEnabled={true}
+        horizontal
+        pagingEnabled
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item: WazifahSection) => String(item.section_number)}
-        contentContainerStyle={{}}
-        snapToInterval={Dimensions.get("window").width}
+        snapToInterval={Dimensions.get('window').width}
         decelerationRate="fast"
         viewabilityConfig={viewabilityConfig}
         onViewableItemsChanged={onViewableItemsChanged}
         getItemLayout={getItemLayout}
         renderItem={({ item, index }) => (
           <ScrollView
-            style={{ width: Dimensions.get("window").width }}
+            style={{ width: Dimensions.get('window').width }}
             contentContainerStyle={{
-              paddingHorizontal: Spacing.two,
+              paddingHorizontal: Spacing.four,
               paddingBottom: insets.bottom + 40,
-              alignItems: "center",
+              alignItems: 'center',
             }}
             showsVerticalScrollIndicator={false}
           >
             <SectionCard
               section={item}
-              index={index}
               colors={colors}
               arabicFontSize={arabicFontSize}
               translationFontSize={translationFontSize}
-              accentColor={colors.accent2}
               isFirst={index === 0}
               isLast={index === wazifah.sections.length - 1}
             />
@@ -159,20 +124,16 @@ export default function WazifahKubroScreen() {
 
 function SectionCard({
   section,
-  index,
   colors,
   arabicFontSize,
   translationFontSize,
-  accentColor,
   isFirst,
   isLast,
 }: {
   section: WazifahSection;
-  index: number;
   colors: ThemePalette;
   arabicFontSize: number;
   translationFontSize: number;
-  accentColor: string;
   isFirst: boolean;
   isLast: boolean;
 }) {
@@ -184,69 +145,49 @@ function SectionCard({
         styles.card,
         {
           backgroundColor: colors.backgroundElement,
-          borderColor: colors.glassBorder,
-          borderWidth: 1,
           borderRadius: Radius.lg,
-          marginHorizontal: Spacing.two,
+          width: Dimensions.get('window').width - Spacing.four * 2,
           ...Shadows.card,
         },
       ]}
     >
-      {/* Card Header: Judul + Info (center) */}
       <View
         style={[
           styles.cardHeader,
           {
-            backgroundColor: accentColor,
-            borderTopLeftRadius: isFirst ? Radius.lg - 1 : Radius.md,
-            borderTopRightRadius: isFirst ? Radius.lg - 1 : Radius.md,
+            backgroundColor: colors.accentSecondary,
+            borderTopLeftRadius: Radius.lg,
+            borderTopRightRadius: Radius.lg,
           },
         ]}
       >
         <Text style={styles.cardTitle}>{section.title}</Text>
         <View style={styles.cardMetaRow}>
+          <Ionicons name="book-outline" size={12} color="rgba(255,255,255,0.7)" />
           <Text style={styles.cardSource}>{section.source}</Text>
-          <Text
-            style={[styles.cardMetaDot, { color: "rgba(255,255,255,0.6)" }]}
-          >
-            •
-          </Text>
+          <Text style={styles.cardMetaDot}>•</Text>
           <Text style={styles.cardRepetisi}>{section.repetition}x</Text>
         </View>
       </View>
 
-      {/* Bismillah header jika diperlukan */}
       {(section as any).header_bismillah && (
-        <Text
-          style={[
-            styles.bismillahText,
-            {
-              fontSize: arabicFontSize * 1,
-              color: colors.text,
-              textAlign: "right",
-              marginHorizontal: Spacing.three,
-              marginTop: Spacing.one,
-            },
-          ]}
-        >
-          بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
-        </Text>
+        <View style={styles.bismillahContainer}>
+          <View style={[styles.divider, { backgroundColor: colors.accentSecondary }]} />
+          <Text style={[styles.bismillahText, { fontSize: arabicFontSize, color: colors.text }]}>
+            بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+          </Text>
+          <View style={[styles.divider, { backgroundColor: colors.accentSecondary }]} />
+        </View>
       )}
 
-      {/* Per-ayat content */}
       <View style={styles.ayatList}>
         {ayatPairs.length > 0 ? (
           ayatPairs.map((ayat: AyatPair, i: number) => (
-            <View key={i} style={styles.ayatItem}>
+            <View key={i} style={[styles.ayatItem, i < ayatPairs.length - 1 && { borderBottomWidth: 1, borderBottomColor: colors.separator, paddingBottom: Spacing.four, marginBottom: Spacing.four }]}>
               <View style={styles.ayatHeader}>
-                <Text
-                  style={[
-                    styles.ayatNumber,
-                    { color: colors.accent, backgroundColor: colors.accent3 },
-                  ]}
-                >
-                  Ayat {ayat.ayat}
-                </Text>
+                <View style={[styles.ayatNumberBadge, { backgroundColor: colors.accentSecondaryLight }]}>
+                  <Text style={[styles.ayatNumberText, { color: colors.accentSecondary }]}>{ayat.ayat}</Text>
+                </View>
               </View>
               <Text
                 style={[
@@ -267,7 +208,6 @@ function SectionCard({
                     color: colors.textSecondary,
                     fontSize: translationFontSize,
                     lineHeight: translationFontSize * 1.7,
-                    textAlign: "justify",
                   },
                 ]}
               >
@@ -311,92 +251,80 @@ function SectionCard({
 const styles = StyleSheet.create({
   container: { flex: 1 },
   header: {
-    paddingHorizontal: Spacing.four,
-    paddingTop: Spacing.four + 20,
-    paddingBottom: Spacing.three,
-    alignItems: "center",
-    borderBottomLeftRadius: Radius.xl,
-    borderBottomRightRadius: Radius.xl,
-    ...Shadows.soft,
+    paddingHorizontal: Spacing.five,
+    paddingBottom: Spacing.four,
   },
-  headerTitle: {
-    fontSize: 28,
-    color: "#fff",
-    fontWeight: "800",
-    textAlign: "center",
-  },
-  headerDesc: {
-    fontSize: 14,
-    color: "rgba(255,255,255,0.8)",
-    marginTop: 6,
-    textAlign: "center",
-  },
+  headerTitle: { ...Typography.title1 },
+  headerDesc: { ...Typography.subhead, marginTop: Spacing.one },
   card: {
-    borderRadius: Radius.lg,
+    overflow: 'hidden',
   },
   cardHeader: {
-    alignItems: "center",
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.two,
+    alignItems: 'center',
+    paddingHorizontal: Spacing.four,
+    paddingVertical: Spacing.three,
   },
-  cardHeaderRight: { flex: 1 },
   cardTitle: {
-    fontSize: 15,
-    fontWeight: "700",
-    color: "#fff",
-    marginBottom: 3,
-    textAlign: "center",
+    ...Typography.headline,
+    color: '#fff',
+    marginBottom: Spacing.half,
+    textAlign: 'center',
   },
   cardMetaRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: Spacing.one,
   },
   cardSource: {
-    fontSize: 11,
-    color: "rgba(255,255,255,0.75)",
-    fontWeight: "500",
+    ...Typography.caption1,
+    color: 'rgba(255,255,255,0.7)',
   },
-  cardMetaDot: { fontSize: 11, marginHorizontal: 4 },
+  cardMetaDot: { ...Typography.caption1, color: 'rgba(255,255,255,0.5)' },
   cardRepetisi: {
-    fontSize: 11,
-    color: "rgba(255,255,255,0.75)",
-    fontWeight: "600",
+    ...Typography.caption1,
+    color: 'rgba(255,255,255,0.7)',
+    fontWeight: '600',
+  },
+  bismillahContainer: {
+    alignItems: 'center',
+    paddingVertical: Spacing.four,
+    gap: Spacing.two,
+  },
+  divider: {
+    width: 60,
+    height: 1,
+  },
+  bismillahText: {
+    fontFamily: 'KFGQPC-Uthmanic-HAFS',
+    textAlign: 'center',
   },
   ayatList: {
-    paddingHorizontal: Spacing.three,
-    paddingTop: Spacing.three,
-    paddingBottom: Spacing.three,
-    gap: Spacing.three,
+    padding: Spacing.four,
   },
   ayatItem: {},
   ayatHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: Spacing.two,
   },
-  ayatNumber: {
-    fontSize: 11,
-    fontWeight: "800",
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-    paddingVertical: 3,
-    paddingHorizontal: 10,
-    borderRadius: Radius.pill,
-    overflow: "hidden",
+  ayatNumberBadge: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ayatNumberText: {
+    ...Typography.caption1,
+    fontWeight: '700',
   },
   arabicText: {
-    textAlign: "right",
-    fontFamily: "KFGQPC-Uthmanic-HAFS",
-    fontWeight: "600",
-    marginBottom: Spacing.one,
-  },
-  bismillahText: {
-    textAlign: "right",
-    fontFamily: "KFGQPC-Uthmanic-HAFS",
-    fontWeight: "600",
+    textAlign: 'right',
+    fontFamily: 'KFGQPC-Uthmanic-HAFS',
+    marginBottom: Spacing.two,
   },
   translationText: {
-    fontWeight: "500",
+    ...Typography.subhead,
   },
 });

@@ -1,8 +1,8 @@
 {
   "env": {
-    "ANTHROPIC_BASE_URL": "http://localhost:20128",
-    "ANTHROPIC_AUTH_TOKEN": "sk-d46fb5e64f5c9354-314d6f-b7155623",
+    "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
+    "ANTHROPIC_AUTH_TOKEN": "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",
     "ANTHROPIC_API_KEY": "",
-    "ANTHROPIC_MODEL": "work-ai"
+    "ANTHROPIC_MODEL": "nvidia/nemotron-3-ultra-550b-a55b:free"
   }
 }
