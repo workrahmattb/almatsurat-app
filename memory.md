@@ -7,11 +7,10 @@ Catatan konteks & riwayat pekerjaan. Update file ini setiap ada pekerjaan besar 
 - **Stack:** React Native 0.86 + Expo SDK 57, Expo Router v6 (file-based routing), Zustand + AsyncStorage (offline-first), TypeScript strict, `@expo/vector-icons` (Ionicons).
 - **Konten:** semua data bundled sebagai JSON di `assets/data/` (Quran, Kitab, Wazifah).
 - **Alur utama:**
-  1. **Home** (`src/app/index.tsx`) → header + tombol Settings (kanan atas), card "Lanjutkan Membaca", menu Wazifah Sugro & Kubro (kiri-kanan), navigasi Kitab & Favorit.
+  1. **Home** (`src/app/index.tsx`) → header + tombol Settings (kanan atas), card "Lanjutkan Membaca", menu Wazifah Sugro & Kubro (kiri-kanan).
   2. **Wazifah** (`wazifah-sugro.tsx`, `wazifah-kubro.tsx`) → horizontal swipe per section (FlatList paging), konten per-ayat via `perayat-adapter.ts`, progress tersimpan otomatis.
-  3. **Kitab** (`kitab/[id]/[chapter].tsx`) → baca isi bab, bookmark bab, prev/next, progress otomatis. Daftar bab di `kitab/[id].tsx`.
-  4. **Surah** (`surah/[id].tsx`) → baca ayat + terjemahan, bookmark per ayat, progress otomatis.
-  5. **Bookmark & Settings** → daftar favorit & ukuran font.
+  3. **Surah** (`surah/[id].tsx`) → baca ayat + terjemahan, bookmark per ayat, progress otomatis.
+  4. **Bookmark & Settings** → daftar favorit & ukuran font.
 
 ## Riwayat Pekerjaan
 
@@ -46,7 +45,7 @@ Catatan konteks & riwayat pekerjaan. Update file ini setiap ada pekerjaan besar 
 - **Keputusan desain:** "Digital Mushaf" — warm cream backgrounds, deep emerald accents, elegant Islamic aesthetic.
 
 #### Token System Baru (`src/constants/theme.ts`):
-- **Warna:** Light cream `#FAFAF5`, dark `#1C1C1E`, accent emerald `#0A7B4F`/`#34C759`, secondary gold `#C9A96E`/`#D4A84B`.
+- **Warna:** Light cream `#FAFAF5`, dark `#1C1C1E`, accent sage teal `#2D6A5A`/`#4A9A82`, secondary warm brown `#8B7355`/`#A89070`.
 - **Typography:** Scale Apple HIG (Large Title 34pt → Caption 11pt), font `KFGQPC-Uthmanic-HAFS` tetap untuk Arabic.
 - **Spacing:** Scale konsisten (half 2 → twelve 48).
 - **Radius:** Lebih kecil (sm 8, md 12, lg 16, xl 20, pill 999).
@@ -62,23 +61,38 @@ Catatan konteks & riwayat pekerjaan. Update file ini setiap ada pekerjaan besar 
 - Package `@expo/vector-icons` diinstall via `npx expo install`.
 
 #### Screens Updated:
-- **Home:** Tombol Settings kanan atas, "Continue Reading" card dengan icon, menu Wazifah (Sugro/Kubro), navigasi Kitab & Favorit.
-- **Wazifah:** Header cream, card header emerald/gold, ayat number badge, Bismillah divider dengan gold accent.
+- **Home:** Tombol Settings kanan atas, "Continue Reading" card dengan icon, menu Wazifah (Sugro/Kubro).
+- **Wazifah:** Header cream, card header sage teal, ayat number badge, Bismillah divider, translation rata kiri kanan.
 - **Surah:** Header nama Arab sebagai hero, ayat cards dengan bookmark heart icon.
-- **Kitab:** Chapter list dengan chevron-forward icons, chapter reader dengan prev/next buttons.
-- **Bookmark:** Empty state dengan heart-outline icon, list items dengan book/library icons.
+- **Bookmark:** Empty state dengan heart-outline icon, list items dengan book icons.
 - **Settings:** Grouped sections dengan icons, font size selectors.
+
+### 7. Hapus fitur Kitab & Navigation
+- **Kitab dihapus:** Folder `src/app/kitab/` dihapus total (termasuk `[id].tsx`, `[id]/[chapter].tsx`, `_layout.tsx`, `index.tsx`).
+- **Navigasi dihapus:** Section "Navigasi" (Kitab & Favorit) dihapus dari Home screen.
+- **Referensi kitab dihapus:** Route kitab dihapus dari `_layout.tsx`, navigasi kitab dihapus dari `bookmark.tsx` dan `index.tsx`.
+
+### 8. Update warna Wazifah
+- **Warna lama:** Accent hijau terang `#0A7B4F` (Sugro), Gold terang `#C9A96E` (Kubro).
+- **Warna baru:** Sage teal `#2D6A5A` (Sugro & Kubro), lebih soft dan elegan.
+- **Dark mode:** `#4A9A82` (teal) untuk kedua screen.
+- **Kubro disamakan:** Semua `accentSecondary` diganti `accent` agar sama dengan Sugro.
+
+### 9. Perbaikan layout & typography
+- **Translation text:** Ditambah `textAlign: 'justify'` (rata kiri kanan) di Wazifah Sugro & Kubro.
+- **Bottom navbar:** Dihapus total, navigasi via kartu di Home screen.
+- **Tombol Settings:** Dipindah ke pojok kanan atas Home screen.
 
 ## Status Sekarang
 
 - `npx tsc --noEmit` → **exit 0** (nol error).
-- UI redesign selesai: warm cream + emerald, vector icons, no bottom navbar.
+- UI: warm cream + sage teal, vector icons, no bottom navbar, no Kitab.
 - Font Arabic `KFGQPC-Uthmanic-HAFS` tetap dipertahankan.
+- Translation text rata kiri kanan (justify).
 
 ## Catatan / Isu Terbuka
 
+- **Fitur Kitab belum ada:** Perlu dibuat ulang jika diperlukan.
 - **README.md & PRD outdated:** masih menyebut SDK 54, tema "glassmorphism", dan screen `(tabs)/quran.tsx` yang tidak ada. Perlu diupdate.
 - `split-adapter.ts` tidak terpakai (screen pakai `perayat-adapter`).
-- Tombol "Bab Sebelumnya" di `kitab/[id]/[chapter].tsx` masih pakai `navigation.goBack()` — jalan, tapi kalau masuk dari bookmark ke bab tengah, balik ke halaman sebelumnya, bukan bab sebelumnya.
 - Tipe `Bookmark` menyimpan `'wazifah'` tapi store hanya terima `'ayat' | 'chapter'` (minor).
-- Tidak ada menu Quran/Kitab di Home (hanya 2 wazifah), padahal reader surah & kitab sudah ada.

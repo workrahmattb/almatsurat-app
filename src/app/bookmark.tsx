@@ -24,7 +24,6 @@ export default function BookmarkScreen() {
         style={[styles.bookmarkCard, { backgroundColor: colors.backgroundElement }]}
         onPress={() => {
           if (isAyat && item.surah_id) router.push(`/surah/${item.surah_id}`);
-          else if (!isAyat && item.kitab_id) router.push(`/kitab/${item.kitab_id}`);
         }}
         activeOpacity={0.7}
       >

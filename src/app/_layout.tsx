@@ -48,26 +48,6 @@ export default function RootLayout() {
           headerTintColor: colors.text,
         }}
       />
-      <Stack.Screen
-        name="kitab/[id]"
-        options={{
-          headerShown: true,
-          title: '',
-          presentation: 'card',
-          headerStyle: { backgroundColor: colors.background },
-          headerTintColor: colors.text,
-        }}
-      />
-      <Stack.Screen
-        name="kitab/[id]/[chapter]"
-        options={{
-          headerShown: true,
-          title: '',
-          presentation: 'card',
-          headerStyle: { backgroundColor: colors.background },
-          headerTintColor: colors.text,
-        }}
-      />
     </Stack>
   );
 }

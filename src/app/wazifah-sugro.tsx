@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { Ionicons } from "@expo/vector-icons";
+import { useCallback, useEffect, useRef } from "react";
 import {
   Dimensions,
   FlatList,
@@ -7,26 +8,35 @@ import {
   Text,
   View,
   type ViewToken,
-} from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { getWazifahById, type WazifahSection } from '@/assets/data/wazifah';
-import { getAyatPairs, type AyatPair } from '@/assets/data/wazifah/perayat-adapter';
-import { Colors, Radius, Shadows, Spacing, Typography, type ThemePalette } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { useProgressStore, useSettingsStore } from '@/stores';
-import { useLocalSearchParams } from 'expo-router';
+import { getWazifahById, type WazifahSection } from "@/assets/data/wazifah";
+import {
+  getAyatPairs,
+  type AyatPair,
+} from "@/assets/data/wazifah/perayat-adapter";
+import {
+  Colors,
+  Radius,
+  Shadows,
+  Spacing,
+  Typography,
+  type ThemePalette,
+} from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useProgressStore, useSettingsStore } from "@/stores";
+import { useLocalSearchParams } from "expo-router";
 
 export default function WazifahSugroScreen() {
   const insets = useSafeAreaInsets();
   const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
-  const colors = Colors[isDark ? 'dark' : 'light'];
+  const isDark = colorScheme === "dark";
+  const colors = Colors[isDark ? "dark" : "light"];
 
   const { arabicFontSize, translationFontSize } = useSettingsStore();
   const updateProgress = useProgressStore((s) => s.updateProgress);
-  const wazifah = getWazifahById('sugro');
+  const wazifah = getWazifahById("sugro");
   const params = useLocalSearchParams();
   const flatListRef = useRef<FlatList>(null);
 
@@ -36,10 +46,10 @@ export default function WazifahSugroScreen() {
       if (viewableItems.length > 0 && wazifah && viewableItems[0].item) {
         const visible = viewableItems[viewableItems.length - 1].item;
         updateProgress({
-          type: 'wazifah',
+          type: "wazifah",
           reference_id: wazifah.id,
           title: wazifah.title,
-          wazifah_type: 'sugro',
+          wazifah_type: "sugro",
           section_number: visible.section_number,
           section_title: visible.title,
         });
@@ -49,14 +59,16 @@ export default function WazifahSugroScreen() {
   );
 
   const getItemLayout = useCallback((data: any, index: number) => {
-    const cardWidth = Dimensions.get('window').width;
+    const cardWidth = Dimensions.get("window").width;
     return { length: cardWidth, offset: cardWidth * index, index };
   }, []);
 
   useEffect(() => {
     if (wazifah && params.scrollToSection) {
       const target = Number(params.scrollToSection);
-      const index = wazifah.sections.findIndex((s) => s.section_number === target);
+      const index = wazifah.sections.findIndex(
+        (s) => s.section_number === target,
+      );
       if (index >= 0 && flatListRef.current) {
         setTimeout(() => {
           flatListRef.current?.scrollToIndex({
@@ -71,8 +83,19 @@ export default function WazifahSugroScreen() {
 
   if (!wazifah) {
     return (
-      <View style={[styles.container, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }]}>
-        <Text style={{ color: colors.text, fontSize: 17 }}>Wazifah tidak ditemukan</Text>
+      <View
+        style={[
+          styles.container,
+          {
+            backgroundColor: colors.background,
+            justifyContent: "center",
+            alignItems: "center",
+          },
+        ]}
+      >
+        <Text style={{ color: colors.text, fontSize: 17 }}>
+          Wazifah tidak ditemukan
+        </Text>
       </View>
     );
   }
@@ -80,8 +103,12 @@ export default function WazifahSugroScreen() {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={[styles.header, { paddingTop: insets.top + Spacing.four }]}>
-        <Text style={[styles.headerTitle, { color: colors.text }]}>{wazifah.title}</Text>
-        <Text style={[styles.headerDesc, { color: colors.textSecondary }]}>{wazifah.description}</Text>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>
+          {wazifah.title}
+        </Text>
+        <Text style={[styles.headerDesc, { color: colors.textSecondary }]}>
+          {wazifah.description}
+        </Text>
       </View>
 
       <FlatList
@@ -91,18 +118,18 @@ export default function WazifahSugroScreen() {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item: WazifahSection) => String(item.section_number)}
-        snapToInterval={Dimensions.get('window').width}
+        snapToInterval={Dimensions.get("window").width}
         decelerationRate="fast"
         viewabilityConfig={viewabilityConfig}
         onViewableItemsChanged={onViewableItemsChanged}
         getItemLayout={getItemLayout}
         renderItem={({ item, index }) => (
           <ScrollView
-            style={{ width: Dimensions.get('window').width }}
+            style={{ width: Dimensions.get("window").width }}
             contentContainerStyle={{
               paddingHorizontal: Spacing.four,
               paddingBottom: insets.bottom + 40,
-              alignItems: 'center',
+              alignItems: "center",
             }}
             showsVerticalScrollIndicator={false}
           >
@@ -145,7 +172,7 @@ function SectionCard({
         {
           backgroundColor: colors.backgroundElement,
           borderRadius: Radius.lg,
-          width: Dimensions.get('window').width - Spacing.four * 2,
+          width: Dimensions.get("window").width - Spacing.four * 2,
           ...Shadows.card,
         },
       ]}
@@ -162,7 +189,11 @@ function SectionCard({
       >
         <Text style={styles.cardTitle}>{section.title}</Text>
         <View style={styles.cardMetaRow}>
-          <Ionicons name="book-outline" size={12} color="rgba(255,255,255,0.7)" />
+          <Ionicons
+            name="book-outline"
+            size={12}
+            color="rgba(255,255,255,0.7)"
+          />
           <Text style={styles.cardSource}>{section.source}</Text>
           <Text style={styles.cardMetaDot}>•</Text>
           <Text style={styles.cardRepetisi}>{section.repetition}x</Text>
@@ -171,21 +202,56 @@ function SectionCard({
 
       {(section as any).header_bismillah && (
         <View style={styles.bismillahContainer}>
-          <View style={[styles.divider, { backgroundColor: colors.accentSecondary }]} />
-          <Text style={[styles.bismillahText, { fontSize: arabicFontSize, color: colors.text }]}>
+          <View
+            style={[
+              styles.divider,
+              { backgroundColor: colors.accentSecondary },
+            ]}
+          />
+          <Text
+            style={[
+              styles.bismillahText,
+              { fontSize: arabicFontSize, color: colors.text },
+            ]}
+          >
             بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
           </Text>
-          <View style={[styles.divider, { backgroundColor: colors.accentSecondary }]} />
+          <View
+            style={[
+              styles.divider,
+              { backgroundColor: colors.accentSecondary },
+            ]}
+          />
         </View>
       )}
 
       <View style={styles.ayatList}>
         {ayatPairs.length > 0 ? (
           ayatPairs.map((ayat: AyatPair, i: number) => (
-            <View key={i} style={[styles.ayatItem, i < ayatPairs.length - 1 && { borderBottomWidth: 1, borderBottomColor: colors.separator, paddingBottom: Spacing.four, marginBottom: Spacing.four }]}>
+            <View
+              key={i}
+              style={[
+                styles.ayatItem,
+                i < ayatPairs.length - 1 && {
+                  borderBottomWidth: 1,
+                  borderBottomColor: colors.separator,
+                  paddingBottom: Spacing.four,
+                  marginBottom: Spacing.four,
+                },
+              ]}
+            >
               <View style={styles.ayatHeader}>
-                <View style={[styles.ayatNumberBadge, { backgroundColor: colors.accentLight }]}>
-                  <Text style={[styles.ayatNumberText, { color: colors.accent }]}>{ayat.ayat}</Text>
+                <View
+                  style={[
+                    styles.ayatNumberBadge,
+                    { backgroundColor: colors.accentLight },
+                  ]}
+                >
+                  <Text
+                    style={[styles.ayatNumberText, { color: colors.accent }]}
+                  >
+                    {ayat.ayat}
+                  </Text>
                 </View>
               </View>
               <Text
@@ -256,37 +322,37 @@ const styles = StyleSheet.create({
   headerTitle: { ...Typography.title1 },
   headerDesc: { ...Typography.subhead, marginTop: Spacing.one },
   card: {
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   cardHeader: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingHorizontal: Spacing.four,
     paddingVertical: Spacing.three,
   },
   cardTitle: {
     ...Typography.headline,
-    color: '#fff',
+    color: "#fff",
     marginBottom: Spacing.half,
-    textAlign: 'center',
+    textAlign: "center",
   },
   cardMetaRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     gap: Spacing.one,
   },
   cardSource: {
     ...Typography.caption1,
-    color: 'rgba(255,255,255,0.7)',
+    color: "rgba(255,255,255,0.7)",
   },
-  cardMetaDot: { ...Typography.caption1, color: 'rgba(255,255,255,0.5)' },
+  cardMetaDot: { ...Typography.caption1, color: "rgba(255,255,255,0.5)" },
   cardRepetisi: {
     ...Typography.caption1,
-    color: 'rgba(255,255,255,0.7)',
-    fontWeight: '600',
+    color: "rgba(255,255,255,0.7)",
+    fontWeight: "600",
   },
   bismillahContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: Spacing.four,
     gap: Spacing.two,
   },
@@ -295,35 +361,36 @@ const styles = StyleSheet.create({
     height: 1,
   },
   bismillahText: {
-    fontFamily: 'KFGQPC-Uthmanic-HAFS',
-    textAlign: 'center',
+    fontFamily: "KFGQPC-Uthmanic-HAFS",
+    textAlign: "center",
   },
   ayatList: {
     padding: Spacing.four,
   },
   ayatItem: {},
   ayatHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: Spacing.two,
   },
   ayatNumberBadge: {
     width: 28,
     height: 28,
     borderRadius: 14,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   ayatNumberText: {
     ...Typography.caption1,
-    fontWeight: '700',
+    fontWeight: "700",
   },
   arabicText: {
-    textAlign: 'right',
-    fontFamily: 'KFGQPC-Uthmanic-HAFS',
+    textAlign: "right",
+    fontFamily: "KFGQPC-Uthmanic-HAFS",
     marginBottom: Spacing.two,
   },
   translationText: {
     ...Typography.subhead,
+    textAlign: 'justify',
   },
 });

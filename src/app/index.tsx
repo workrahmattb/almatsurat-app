@@ -39,7 +39,6 @@ export default function HomeScreen() {
           style={[styles.continueCard, { backgroundColor: colors.backgroundElement }]}
           onPress={() => {
             if (latestProgress.type === 'surah') router.push(`/surah/${latestProgress.reference_id}`);
-            else if (latestProgress.type === 'kitab') router.push(`/kitab/${latestProgress.reference_id}`);
             else if (latestProgress.type === 'wazifah') {
               const route = latestProgress.wazifah_type === 'kubro' ? '/wazifah-kubro' : '/wazifah-sugro';
               router.push({ pathname: route, params: { scrollToSection: latestProgress.section_number } });
@@ -93,28 +92,6 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      <View style={styles.section}>
-        <Text style={[styles.sectionTitle, { color: colors.text }]}>Navigasi</Text>
-        <View style={styles.navContainer}>
-          <TouchableOpacity
-            style={[styles.navCard, { backgroundColor: colors.backgroundElement }]}
-            onPress={() => router.push('/kitab/[id]')}
-            activeOpacity={0.7}
-          >
-            <Ionicons name="library" size={24} color={colors.accent} />
-            <Text style={[styles.navTitle, { color: colors.text }]}>Kitab</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.navCard, { backgroundColor: colors.backgroundElement }]}
-            onPress={() => router.push('/bookmark')}
-            activeOpacity={0.7}
-          >
-            <Ionicons name="heart" size={24} color={colors.bookmark} />
-            <Text style={[styles.navTitle, { color: colors.text }]}>Favorit</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </ScrollView>
   );
 }
@@ -186,16 +163,4 @@ const styles = StyleSheet.create({
   },
   menuTitle: { ...Typography.headline, marginTop: Spacing.two },
   menuDesc: { ...Typography.caption1, marginTop: Spacing.one, textAlign: 'center' },
-  navContainer: {
-    flexDirection: 'row',
-    gap: Spacing.three,
-  },
-  navCard: {
-    flex: 1,
-    padding: Spacing.four,
-    borderRadius: Radius.lg,
-    alignItems: 'center',
-    ...Shadows.card,
-  },
-  navTitle: { ...Typography.subhead, marginTop: Spacing.two, fontWeight: '500' },
 });
